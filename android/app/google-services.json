@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1027871286488",
+    "project_id": "retry-sam",
+    "storage_bucket": "retry-sam.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1027871286488:android:cd6ed402475a396a2d23ad",
+        "android_client_info": {
+          "package_name": "mayursinalkar.sam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1027871286488-a819dof4h0l9fjp7r2hf4278dm06le3e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChT2-qQ4EHgEUxYcFLIJ7ghHmJTs5FAks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1027871286488-a819dof4h0l9fjp7r2hf4278dm06le3e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
