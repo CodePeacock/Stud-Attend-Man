@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:stud_attend_man/classes/account.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
 import 'package:stud_attend_man/shared/formatting.dart';
+import 'package:stud_attend_man/shared/teacher_drawer_header.dart';
 
 class Batches extends StatefulWidget {
   @override
@@ -29,6 +30,7 @@ class _BatchesState extends State<Batches> {
     _user = userCurrent;
     _tSAB = TeacherSubjectsAndBatches(_user);
     _batches = await _tSAB.getBatches(sub);
+    print(_batches);
     if (_batches == null) {
       _batches = ["Couldn't get batches, try again"];
     }
@@ -45,63 +47,50 @@ class _BatchesState extends State<Batches> {
         endDrawer: Drawer(
           child: Column(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(18, 95, 0, 20),
-                      color: Colors.cyan,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            _userName,
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            Provider.of<User>(context).email,
-                            style: TextStyle(color: Colors.white, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              TeacherDrawerHeader(userName: _userName),
               Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    ListTile(
-                      title: Text('Add Batch'),
-                      onTap: () async {
-                        Navigator.of(context).pop();
-                        addBatchForm().then((onValue) {
-                          setState(() {});
-                        });
-                      },
-                    ),
-                    ListTile(
-                      title: Text('Remove Batch'),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        if (_batches[0] != 'Empty') {
-                          setState(() {
-                            _delete = true;
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.black),
+                  child: ListView(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(
+                          'Add Batch',
+                          style: GoogleFonts.quicksand(color: Colors.white),
+                        ),
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          addBatchForm().then((onValue) {
+                            setState(() {});
                           });
-                        }
-                      },
-                    ),
-                    ListTile(
-                      title: Text('Account Settings'),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pushNamed('/accountSettings');
-                      },
-                    ),
-                  ],
+                        },
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Remove Batch',
+                          style: GoogleFonts.quicksand(color: Colors.white),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          if (_batches[0] != 'Empty') {
+                            setState(() {
+                              _delete = true;
+                            });
+                          }
+                        },
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Account Settings',
+                          style: GoogleFonts.quicksand(color: Colors.white),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pushNamed('/accountSettings');
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],
@@ -123,7 +112,7 @@ class _BatchesState extends State<Batches> {
                     child: Row(
                       children: <Widget>[
                         BackButton(
-                          color: Colors.white,
+                          color: kGoodColor,
                         ),
                         Expanded(
                             child: Text(
@@ -141,12 +130,12 @@ class _BatchesState extends State<Batches> {
                                   BorderRadius.all(Radius.circular(50))),
                           child: TextButton.icon(
                             label: Text('Log Out',
-                                style: GoogleFonts.lato(
-                                    color: Colors.deepPurpleAccent,
+                                style: GoogleFonts.montserrat(
+                                    color: kGoodColor,
                                     fontWeight: FontWeight.bold)),
                             icon: Icon(
                               Icons.exit_to_app,
-                              color: Colors.deepPurpleAccent,
+                              color: kGoodColor,
                               size: 15,
                             ),
                             onPressed: () async {
@@ -164,7 +153,7 @@ class _BatchesState extends State<Batches> {
                   Container(
                     margin: EdgeInsets.fromLTRB(40, 130, 40, 20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: kGlobalContainerColor,
                       borderRadius: BorderRadius.circular(20),
                       // boxShadow: [
                       //   BoxShadow(
@@ -180,8 +169,14 @@ class _BatchesState extends State<Batches> {
                           child: Container(
                             padding: EdgeInsets.all(6.5),
                             child: TextFormField(
+                              style: GoogleFonts.lato(color: Colors.white),
                               decoration: authInputFormatting.copyWith(
-                                  hintText: "Search By Batch"),
+                                hintText: "Search by Batch",
+                                hintStyle: TextStyle(
+                                    color: Color.fromRGBO(121, 121, 121, 1.0)),
+                                border: InputBorder.none,
+                                fillColor: Color.fromRGBO(23, 23, 23, 1.0),
+                              ),
                               onChanged: (val) {
                                 setState(() {
                                   _batchesVisible = _batches
@@ -195,7 +190,7 @@ class _BatchesState extends State<Batches> {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.menu, color: kGoodIconColor),
+                          icon: Icon(Icons.menu, color: kGoodColor),
                           onPressed: () async {
                             _scaffoldKey.currentState.openEndDrawer();
                           },
@@ -235,7 +230,7 @@ class _BatchesState extends State<Batches> {
           _batches[0] == 'Empty'
               ? Text(
                   '\n\nYou Need To Add Batches',
-                  style: TextStyle(color: Colors.red),
+                  style: GoogleFonts.raleway(color: Colors.red),
                 )
               : Expanded(
                   child: ListView.builder(
@@ -243,10 +238,32 @@ class _BatchesState extends State<Batches> {
                     itemBuilder: (context, index) {
                       return Card(
                         elevation: 3,
-                        color: kGlobalBackgroundColor,
+                        color: kGlobalCardColor,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: ListTile(
+                            title: Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: Text(
+                                  '${_batchesVisible[index]}',
+                                  style: GoogleFonts.lato(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                )),
+                                _delete
+                                    ? Icon(
+                                        Icons.delete,
+                                        color: kGoodColor,
+                                      )
+                                    : Icon(
+                                        Icons.forward,
+                                        color: kGoodColor,
+                                      ),
+                              ],
+                            ),
                             onTap: () async {
                               if (!_delete) {
                                 Navigator.of(context)
@@ -350,28 +367,6 @@ class _BatchesState extends State<Batches> {
                                     });
                               }
                             },
-                            title: Row(
-                              children: <Widget>[
-                                Expanded(
-                                    child: Text(
-                                  '${_batchesVisible[index]}',
-                                  style: GoogleFonts.nunito(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                )),
-                                _delete
-                                    ? Icon(
-                                        Icons.delete,
-                                        color: kGoodIconColor,
-                                      )
-                                    : Icon(
-                                        Icons.forward,
-                                        color: kGoodIconColor,
-                                      ),
-                              ],
-                            ),
                           ),
                         ),
                       );
@@ -391,24 +386,25 @@ class _BatchesState extends State<Batches> {
         });
       },
       child: Container(
+        margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         decoration: BoxDecoration(
-            color: Colors.cyan,
+            color: Colors.black,
             borderRadius: BorderRadius.all(Radius.circular(50))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 25,
+              Icons.add_business_rounded,
+              color: kGoodColor,
+              size: 23,
             ),
             SizedBox(
-              width: 10,
+              width: 5,
             ),
             Text(
-              'Add',
-              style: TextStyle(
+              'Add Batch',
+              style: GoogleFonts.sourceSansPro(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 18),
@@ -444,24 +440,25 @@ class _BatchesState extends State<Batches> {
             });
           },
           child: Container(
+            margin: EdgeInsets.only(top: 10),
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             decoration: BoxDecoration(
-                color: Colors.cyan,
+                color: Colors.black,
                 borderRadius: BorderRadius.all(Radius.circular(50))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 25,
+                  Icons.check_rounded,
+                  color: kGoodColor,
+                  size: 23,
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 5,
                 ),
                 Text(
                   'Done',
-                  style: TextStyle(
+                  style: GoogleFonts.sourceSansPro(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 18),
@@ -482,6 +479,7 @@ class _BatchesState extends State<Batches> {
           return StatefulBuilder(
             builder: (context, setState) {
               return Dialog(
+                backgroundColor: kGlobalContainerColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),
                 child: Container(
@@ -508,20 +506,29 @@ class _BatchesState extends State<Batches> {
                             Container(
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Color.fromRGBO(20, 20, 20, 1.0),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color.fromRGBO(51, 204, 255, 0.3),
-                                    blurRadius: 10,
-                                    offset: Offset(0, 10),
-                                  )
-                                ],
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //     color: Color.fromRGBO(51, 204, 255, 0.3),
+                                //     blurRadius: 10,
+                                //     offset: Offset(0, 10),
+                                //   )
+                                // ],
                               ),
                               child: TextFormField(
+                                keyboardType: TextInputType.name,
+                                style: GoogleFonts.lato(
+                                    color: Colors.white, fontSize: 14),
                                 decoration: authInputFormatting.copyWith(
-                                    hintText: 'Add Batch Name'),
+                                  hintText: "Add Batch",
+                                  hintStyle: TextStyle(
+                                      color:
+                                          Color.fromRGBO(121, 121, 121, 1.0)),
+                                  border: InputBorder.none,
+                                  fillColor: Color.fromRGBO(20, 20, 20, 1.0),
+                                ),
                                 validator: (val) => val.isEmpty
                                     ? 'Batch Name Can\'t Be Empty'
                                     : null,
@@ -543,7 +550,7 @@ class _BatchesState extends State<Batches> {
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 45, vertical: 15),
                                             decoration: BoxDecoration(
-                                              color: Colors.cyan,
+                                              color: Colors.black,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20)),
                                             ),
@@ -605,7 +612,7 @@ class _BatchesState extends State<Batches> {
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 45, vertical: 15),
                                             decoration: BoxDecoration(
-                                              color: Colors.cyan,
+                                              color: Colors.black,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20)),
                                             ),

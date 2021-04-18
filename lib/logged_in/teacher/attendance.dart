@@ -2,10 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:stud_attend_man/classes/account.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
+import 'package:stud_attend_man/shared/formatting.dart';
 
 class AddAttendance extends StatefulWidget {
   @override
@@ -41,13 +43,13 @@ class _AddAttendanceState extends State<AddAttendance> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
-            color: Colors.white,
+            color: kGlobalContainerColor,
             child: Stack(
               children: <Widget>[
                 Container(
                   padding: EdgeInsets.fromLTRB(5, 60, 30, 50),
                   decoration: BoxDecoration(
-                      color: Colors.cyan,
+                      color: Colors.black,
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(50),
                           bottomRight: Radius.circular(50))),
@@ -59,7 +61,7 @@ class _AddAttendanceState extends State<AddAttendance> {
                       Expanded(
                           child: Text(
                         '${_chooseClass ? 'Class Timing' : 'Add Attendance'}',
-                        style: TextStyle(
+                            style: GoogleFonts.quicksand(
                             color: Colors.white,
                             fontSize: 25,
                             fontWeight: FontWeight.bold),
@@ -67,7 +69,7 @@ class _AddAttendanceState extends State<AddAttendance> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: kGlobalContainerColor,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(50))),
                         child: TextButton.icon(
@@ -95,9 +97,6 @@ class _AddAttendanceState extends State<AddAttendance> {
               ],
             ),
           ),
-          SizedBox(
-            height: 5,
-          ),
           Expanded(
               child: _chooseClass ? chooseClassDuration() : addAttendance()),
         ],
@@ -106,211 +105,220 @@ class _AddAttendanceState extends State<AddAttendance> {
   }
 
   Widget chooseClassDuration() {
-    dynamic fieldTextStyle = TextStyle(
+    TextStyle fieldTextStyle = TextStyle(
         color: Colors.cyan, fontSize: 17, fontWeight: FontWeight.w400);
-    return Column(
-      children: <Widget>[
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(51, 204, 255, 0.3),
-                blurRadius: 20,
-                offset: Offset(0, 10),
-              )
-            ],
-          ),
-          margin: EdgeInsets.fromLTRB(20, 100, 20, 25),
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 5, 0, 5),
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.calendar_today,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: _date.isEmpty
-                            ? Text(
-                                'Choose Class Date',
-                                style: fieldTextStyle,
-                              )
-                            : Text('$_date', style: fieldTextStyle)),
-                    IconButton(
-                      icon: Icon(
-                        Icons.edit,
-                        color: Colors.grey[700],
+    return Container(
+      color: kGlobalContainerColor,
+      child: ListView(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(20),
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Color.fromRGBO(51, 204, 255, 0.3),
+              //     blurRadius: 20,
+              //     offset: Offset(0, 10),
+              //   )
+              // ],
+            ),
+            margin: EdgeInsets.fromLTRB(20, 100, 20, 25),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 5, 0, 5),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.calendar_today,
+                        color: kGoodColor,
                       ),
-                      onPressed: () {
-                        DatePicker.showDatePicker(
-                          context,
-                          theme: DatePickerTheme(
-                            containerHeight: 350,
-                            backgroundColor: Colors.white,
-                          ),
-                          showTitleActions: true,
-                          minTime: DateTime(
-                              _current.year, _current.month - 1, _current.day),
-                          maxTime: DateTime(
-                              _current.year, _current.month, _current.day),
-                          onConfirm: (dt) {
-                            setState(() {
-                              print(dt);
-                              _date = dt.toLocal().toString().substring(0, 10);
-                            });
-                          },
-                        );
-                      },
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 5, 0, 5),
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.access_time,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: _start.isEmpty
-                            ? Text(
-                                'Choose Start Time',
-                                style: fieldTextStyle,
-                              )
-                            : Text(
-                                '$_start',
-                                style: fieldTextStyle,
-                              )),
-                    IconButton(
-                      icon: Icon(
-                        Icons.edit,
-                        color: Colors.grey[700],
+                      SizedBox(
+                        width: 20,
                       ),
-                      onPressed: () {
-                        DatePicker.showTime12hPicker(
-                          context,
-                          theme: DatePickerTheme(
-                            containerHeight: 300,
-                            backgroundColor: Colors.white,
-                          ),
-                          showTitleActions: true,
-                          onConfirm: (time) {
-                            setState(() {
-                              _start = DateFormat.jm().format(time);
-                            });
-                          },
-                        );
-                      },
-                    )
-                  ],
+                      Expanded(
+                          child: _date.isEmpty
+                              ? Text(
+                                  'Choose Class Date',
+                                  style: fieldTextStyle,
+                                )
+                              : Text('$_date', style: fieldTextStyle)),
+                      IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          color: kGoodColor,
+                        ),
+                        onPressed: () {
+                          DatePicker.showDatePicker(
+                            context,
+                            locale: LocaleType.en,
+                            theme: DatePickerTheme(
+                              containerHeight: 350,
+                              backgroundColor: Colors.white,
+                            ),
+                            showTitleActions: true,
+                            currentTime: DateTime.now(),
+                            minTime: DateTime(_current.year, _current.month - 1,
+                                _current.day),
+                            maxTime: DateTime(
+                                _current.year, _current.month, _current.day),
+                            onConfirm: (dt) {
+                              setState(() {
+                                print(dt);
+                                _date =
+                                    dt.toLocal().toString().substring(0, 10);
+                              });
+                            },
+                          );
+                        },
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(15, 5, 0, 5),
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.access_time,
-                    ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                        child: _end.isEmpty
-                            ? Text(
-                                'Choose Stop Time',
-                                style: fieldTextStyle,
-                              )
-                            : Text(
-                                '$_end',
-                                style: fieldTextStyle,
-                              )),
-                    IconButton(
-                      icon: Icon(
-                        Icons.edit,
-                        color: Colors.grey[700],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 5, 0, 5),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.access_time_rounded,
+                        color: kGoodColor,
                       ),
-                      onPressed: () {
-                        DatePicker.showTime12hPicker(
-                          context,
-                          theme: DatePickerTheme(
-                            containerHeight: 240,
-                            backgroundColor: Colors.white,
-                          ),
-                          showTitleActions: true,
-                          onConfirm: (time) {
-                            setState(() {
-                              _end = DateFormat.jm().format(time);
-                            });
-                          },
-                        );
-                      },
-                    )
-                  ],
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                          child: _start.isEmpty
+                              ? Text(
+                                  'Choose Start Time',
+                                  style: fieldTextStyle,
+                                )
+                              : Text(
+                                  '$_start',
+                                  style: fieldTextStyle,
+                                )),
+                      IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          color: kGoodColor,
+                        ),
+                        onPressed: () {
+                          DatePicker.showTime12hPicker(
+                            context,
+                            theme: DatePickerTheme(
+                              containerHeight: 300,
+                              backgroundColor: Colors.white,
+                            ),
+                            showTitleActions: true,
+                            onConfirm: (time) {
+                              setState(() {
+                                _start = DateFormat.jm().format(time);
+                              });
+                            },
+                          );
+                        },
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 5, 0, 5),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.lock_clock,
+                        color: kGoodColor,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                          child: _end.isEmpty
+                              ? Text(
+                                  'Choose Stop Time',
+                                  style: fieldTextStyle,
+                                )
+                              : Text(
+                                  '$_end',
+                                  style: fieldTextStyle,
+                                )),
+                      IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          color: kGoodColor,
+                        ),
+                        onPressed: () {
+                          DatePicker.showTime12hPicker(
+                            context,
+                            theme: DatePickerTheme(
+                              containerHeight: 240,
+                              backgroundColor: Colors.white,
+                            ),
+                            showTitleActions: true,
+                            onConfirm: (time) {
+                              setState(() {
+                                _end = DateFormat.jm().format(time);
+                              });
+                            },
+                          );
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        _error == ' '
-            ? Container()
-            : Text(
-                '$_error',
-                style: TextStyle(color: Colors.red),
-              ),
-        _error == ' '
-            ? Container()
-            : SizedBox(
-                height: 20,
-              ),
-        Container(
-          height: 50,
-          margin: EdgeInsets.symmetric(horizontal: 70),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            color: Colors.cyan[300],
-          ),
-          child: Center(
-            child: TextButton(
-              onPressed: () {
-                if (_date.isNotEmpty &&
-                    _start.isNotEmpty &&
-                    _start.isNotEmpty) {
-                  setState(() {
-                    _chooseClass = false;
-                    _error = ' ';
-                  });
-                } else {
-                  setState(() {
-                    _error = 'All three fields are required';
-                  });
-                }
-              },
-              child: Text(
-                'Submit',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                    fontSize: 17),
+          _error == ' '
+              ? Container()
+              : Text(
+                  '$_error',
+                  style: TextStyle(color: Colors.red),
+                ),
+          _error == ' '
+              ? Container()
+              : SizedBox(
+                  height: 20,
+                ),
+          Container(
+            height: 50,
+            margin: EdgeInsets.symmetric(horizontal: 70),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: Colors.black,
+            ),
+            child: Center(
+              child: TextButton(
+                onPressed: () {
+                  if (_date.isNotEmpty &&
+                      _start.isNotEmpty &&
+                      _start.isNotEmpty) {
+                    setState(() {
+                      _chooseClass = false;
+                      _error = ' ';
+                    });
+                  } else {
+                    setState(() {
+                      _error = 'All three fields are required';
+                    });
+                  }
+                },
+                child: Text(
+                  'Submit',
+                  style: GoogleFonts.raleway(
+                      color: kGoodColor,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                      fontSize: 17),
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

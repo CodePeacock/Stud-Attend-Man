@@ -3,6 +3,7 @@ import 'dart:async' show Timer;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:stud_attend_man/logged_out/authentication.dart';
 import 'package:stud_attend_man/shared/formatting.dart';
 import 'package:stud_attend_man/shared/loading_screen.dart';
 
@@ -33,8 +34,27 @@ class _SplashScreenState extends State<SplashScreen> {
     return Timer(_duration, navigationPage);
   }
 
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => Authentication(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.fastLinearToSlowEaseIn;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
   void navigationPage() {
-    Navigator.pushReplacementNamed(context, '/authentication');
+    Navigator.of(context).push(_createRoute());
   }
 
   @override

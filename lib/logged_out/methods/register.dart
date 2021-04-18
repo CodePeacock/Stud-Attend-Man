@@ -23,13 +23,6 @@ class _RegisterState extends State<Register> {
   List<String> _types = ['', 'Student', 'Teacher'];
   bool loading = false;
   Widget _currentForm;
-  bool _isSubmitting = true;
-
-  void suffixTap() {
-    setState(() {
-      _isSubmitting = !_isSubmitting;
-    });
-  }
 
   @override
   void initState() {
@@ -130,7 +123,7 @@ class _RegisterState extends State<Register> {
                         padding: EdgeInsets.all(10.0),
                         decoration: BoxDecoration(
                             border: Border(
-                                left: BorderSide(color: Colors.grey),
+                                left: BorderSide(color: Colors.white),
                                 bottom: BorderSide(color: Colors.white))),
                         child: TextFormField(
                           style: GoogleFonts.lato(color: Colors.white),
@@ -214,6 +207,7 @@ class _RegisterState extends State<Register> {
   }
 
   Widget _registerPasswordType() {
+    bool _isSubmitting = true;
     return Form(
       key: _formKey,
       child: Column(
@@ -237,8 +231,9 @@ class _RegisterState extends State<Register> {
                 Container(
                   padding: EdgeInsets.all(10.0),
                   decoration: BoxDecoration(
-                      color: kGlobalContainerColor,
-                      border: Border(bottom: BorderSide(color: Colors.white))),
+                    color: kGlobalContainerColor,
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                  ),
                   child: TextFormField(
                     keyboardType: TextInputType.visiblePassword,
                     obscuringCharacter: '*',
@@ -249,17 +244,24 @@ class _RegisterState extends State<Register> {
                           TextStyle(color: Color.fromRGBO(121, 121, 121, 1.0)),
                       border: InputBorder.none,
                       fillColor: Color.fromRGBO(23, 23, 23, 1.0),
-                      suffixIcon: IconButton(
-                        splashColor: Colors.pinkAccent,
-                        color: Color.fromRGBO(197, 31, 193, 1.0),
-                        enableFeedback: true,
-                        onPressed: suffixTap,
-                        icon: Icon(
-                          _isSubmitting
-                              ? Icons.visibility_off_rounded
-                              : Icons.visibility_rounded,
-                        ),
-                      ),
+                      // suffixIcon: IconButton(
+                      //   color: kGoodIconColor,
+                      //   icon: Icon(
+                      //     _isSubmitting
+                      //         ? Icons.visibility_off_rounded
+                      //         : Icons.visibility_rounded,
+                      //     color: kGoodIconColor,
+                      //   ),
+                      //   onPressed: () {
+                      //     try {
+                      //       setState(() {
+                      //         _isSubmitting = !_isSubmitting;
+                      //       });
+                      //     } catch (e) {
+                      //       return e;
+                      //     }
+                      //   },
+                      // ),
                     ),
                     validator: _account.validateRegisterPass,
                     obscureText: _isSubmitting,
@@ -271,6 +273,8 @@ class _RegisterState extends State<Register> {
                 Container(
                   padding: EdgeInsets.all(10.0),
                   height: 70,
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(20)),
                   child: FormField<String>(
                     validator: (val) =>
                         val.isEmpty ? "Choose A Category" : null,
@@ -280,7 +284,6 @@ class _RegisterState extends State<Register> {
                             hintText: 'Choose Account Type',
                             hintStyle: TextStyle(
                                 color: Color.fromRGBO(121, 121, 121, 1.0)),
-                            border: InputBorder.none,
                             fillColor: Color.fromRGBO(23, 23, 23, 1.0)),
                         isEmpty: type == '',
                         child: DropdownButtonHideUnderline(
@@ -364,7 +367,7 @@ class _RegisterState extends State<Register> {
                       if (user != null) {
                         UserDataBase userData = UserDataBase(user);
                         dynamic userDataSet = await userData.newUserData(
-                            firstName, lastName, type);
+                            firstName.trim(), lastName.trim(), type);
                         bool isEmailVerified = user.emailVerified;
                         if (userDataSet != null) {
                           dynamic type = await userData.userType();

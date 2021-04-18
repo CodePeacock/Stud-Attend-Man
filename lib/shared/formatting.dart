@@ -21,7 +21,7 @@ const textInputFormatting = InputDecoration(
 
 const Color kGlobalPrimaryColor = Color(0xff363649);
 const Color kGlobalContainerColor = Color(0xff171616);
-const Color kGlobalBackgroundColor = Color(0xff141c4c);
+const Color kGlobalCardColor = Color(0xff1d2763);
 // const Color cGlobalTextColor = Color(0xFFc6c1eb);
 
 // TextStyle buttonTextStyle = GoogleFonts.raleway(
@@ -44,12 +44,14 @@ const kGradientButtonList = [
   Color.fromARGB(255, 210, 39, 170),
 ];
 
-const Color kGoodIconColor = Color.fromARGB(255, 185, 23, 216);
+const Color kGoodColor = Color.fromARGB(255, 185, 23, 216);
 
 const authInputFormatting = InputDecoration(
-  fillColor: Colors.white,
   filled: true,
   border: InputBorder.none,
+  hintText: "Enter Email",
+  hintStyle: TextStyle(color: Color.fromRGBO(121, 121, 121, 1.0)),
+  fillColor: Color.fromRGBO(23, 23, 23, 1.0),
 );
 
 // For loading screen
@@ -72,7 +74,7 @@ class LoadingData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: kGlobalContainerColor,
       body: Center(
         child: SpinKitRing(
           color: Colors.pinkAccent,
@@ -93,7 +95,7 @@ class AuthLoading extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: _width, vertical: _height),
       child: Center(
         child: SpinKitWave(
-          color: kGoodIconColor,
+          color: kGoodColor,
           size: 40,
           type: SpinKitWaveType.start,
           itemCount: 10,

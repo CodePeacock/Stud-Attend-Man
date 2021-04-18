@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:stud_attend_man/classes/account.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
@@ -39,30 +41,30 @@ class _AccountSettingsState extends State<AccountSettings> {
                     child: Row(
                       children: <Widget>[
                         CloseButton(
-                          color: Colors.deepPurpleAccent.shade400,
+                          color: kGoodColor,
                         ),
                         Expanded(
                             child: Text(
-                          'Account Settings',
-                          style: TextStyle(
+                              'Account Settings',
+                              style: GoogleFonts.quicksand(
                               color: Colors.white,
-                              fontSize: 25,
+                              fontSize: 24,
                               fontWeight: FontWeight.bold),
-                        )),
+                            )),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: kGlobalContainerColor,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(50))),
                           child: TextButton.icon(
                             label: Text('Log Out',
                                 style: TextStyle(
-                                    color: Colors.deepPurpleAccent,
+                                    color: kGoodColor,
                                     fontWeight: FontWeight.bold)),
                             icon: Icon(
                               Icons.exit_to_app,
-                              color: Colors.deepPurpleAccent,
+                              color: kGoodColor,
                               size: 15,
                             ),
                             onPressed: () async {
@@ -90,9 +92,16 @@ class _AccountSettingsState extends State<AccountSettings> {
                       height: 40,
                     ),
                     Card(
+                      color: kGlobalCardColor,
                       child: ListTile(
-                        title: Text("Update Name"),
-                        trailing: Icon(Icons.sort_by_alpha_rounded),
+                        title: Text(
+                          "Update Name",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        trailing: Icon(
+                          Icons.sort_by_alpha_rounded,
+                          color: kGoodColor,
+                        ),
                         subtitle: _status['index'] == 0
                             ? Text(
                                 _status['status'],
@@ -101,7 +110,10 @@ class _AccountSettingsState extends State<AccountSettings> {
                                         ? Colors.red
                                         : Colors.green),
                               )
-                            : Text("Update Your Display Name"),
+                            : Text(
+                                "Update Your Display Name",
+                                style: TextStyle(color: Colors.grey),
+                              ),
                         onTap: () {
                           setState(() {
                             _status = {
@@ -116,9 +128,16 @@ class _AccountSettingsState extends State<AccountSettings> {
                     ),
                     _status['action'] == 0 ? changeNameForm() : Container(),
                     Card(
+                      color: kGlobalCardColor,
                       child: ListTile(
-                        title: Text("Update Email"),
-                        trailing: Icon(Icons.email),
+                        title: Text(
+                          "Update Email",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        trailing: Icon(
+                          Icons.email,
+                          color: kGoodColor,
+                        ),
                         subtitle: _status['index'] == 1
                             ? Text(
                                 _status['status'],
@@ -127,7 +146,10 @@ class _AccountSettingsState extends State<AccountSettings> {
                                         ? Colors.red
                                         : Colors.green),
                               )
-                            : Text("Update Your Current Email"),
+                            : Text(
+                                "Update Your Current Email",
+                                style: TextStyle(color: Colors.grey),
+                              ),
                         onTap: () {
                           setState(() {
                             _status = {
@@ -142,9 +164,16 @@ class _AccountSettingsState extends State<AccountSettings> {
                     ),
                     _status['action'] == 1 ? changeEmailForm() : Container(),
                     Card(
+                      color: kGlobalCardColor,
                       child: ListTile(
-                        title: Text("Update Password"),
-                        trailing: Icon(Icons.lock_outline),
+                        title: Text(
+                          "Update Password",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        trailing: Icon(
+                          Icons.lock_rounded,
+                          color: kGoodColor,
+                        ),
                         subtitle: _status['index'] == 2
                             ? Text(
                                 _status['status'],
@@ -153,7 +182,10 @@ class _AccountSettingsState extends State<AccountSettings> {
                                         ? Colors.red
                                         : Colors.green),
                               )
-                            : Text("Update Your Password"),
+                            : Text(
+                                "Update Your Password",
+                                style: TextStyle(color: Colors.grey),
+                              ),
                         onTap: () {
                           setState(() {
                             _status = {
@@ -162,6 +194,14 @@ class _AccountSettingsState extends State<AccountSettings> {
                             };
                           });
                         },
+                        // onLongPress: () {
+                        //   setState(() {
+                        //     _status = {
+                        //       'index': null,
+                        //       'action': null,
+                        //     };
+                        //   });
+                        // },
                       ),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
@@ -186,26 +226,29 @@ class _AccountSettingsState extends State<AccountSettings> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.black,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromRGBO(51, 204, 255, 0.3),
-                    blurRadius: 20,
-                    offset: Offset(0, 10),
-                  )
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Color.fromRGBO(51, 204, 255, 0.3),
+                //     blurRadius: 20,
+                //     offset: Offset(0, 10),
+                //   )
+                // ],
               ),
               child: Column(
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.all(10.0),
-                    // decoration: BoxDecoration(
-                    //     border: Border(
-                    //         bottom: BorderSide(color: Colors.grey[200]))),
+                    decoration: BoxDecoration(
+                      border: Border(bottom: BorderSide(color: Colors.white)),
+                    ),
                     child: TextFormField(
-                      decoration:
-                          authInputFormatting.copyWith(hintText: "First Name"),
+                      style:
+                          GoogleFonts.lato(color: Colors.white, fontSize: 14),
+                      decoration: authInputFormatting.copyWith(
+                          hintText: "First Name",
+                          fillColor: Colors.transparent),
                       validator: (val) =>
                           val.isEmpty ? "First Name Can't Be Empty" : null,
                       onChanged: (val) {
@@ -215,12 +258,11 @@ class _AccountSettingsState extends State<AccountSettings> {
                   ),
                   Container(
                     padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(color: Colors.grey[200]))),
                     child: TextFormField(
-                      decoration:
-                          authInputFormatting.copyWith(hintText: "Last Name"),
+                      style:
+                          GoogleFonts.lato(color: Colors.white, fontSize: 14),
+                      decoration: authInputFormatting.copyWith(
+                          hintText: "Last Name", fillColor: Colors.transparent),
                       validator: (val) =>
                           val.isEmpty ? "Last Name Can't Be Empty" : null,
                       onChanged: (val) {
@@ -243,13 +285,24 @@ class _AccountSettingsState extends State<AccountSettings> {
                         dynamic result = await UserDataBase(
                                 Provider.of<User>(context, listen: false))
                             .updateUserName(firstName, lastName);
+                        final CollectionReference _userData =
+                            FirebaseFirestore.instance.collection('users');
+                        String user = FirebaseAuth.instance.currentUser.email;
+                        String time = DateTime.now().toString();
+                        Map<String, dynamic> data = {
+                          'fullName': firstName + ' ' + lastName,
+                          'last_update': time,
+                        };
+                        await _userData
+                            .doc(user)
+                            .set(data, SetOptions(merge: true));
                         if (result != null) {
                           setState(() {
                             _status = {
-                              'index': 1,
+                              'index': 0,
                               'action': null,
                               'error': false,
-                              'status': 'Email Changed Successfully',
+                              'status': 'Name Changed Successfully',
                             };
                           });
                         } else {
@@ -269,13 +322,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: Colors.cyan,
+                        color: Colors.black,
                       ),
                       child: Center(
                         child: Text(
                           "Update",
-                          style: TextStyle(
-                              color: Colors.white,
+                          style: GoogleFonts.montserrat(
+                              color: kGoodColor,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.5,
                               fontSize: 17),
@@ -299,13 +352,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: Colors.cyan[200],
+                        color: kGoodColor,
                       ),
                       child: Center(
                         child: Text(
                           "Cancel",
-                          style: TextStyle(
-                              color: Colors.white,
+                          style: GoogleFonts.montserrat(
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.5,
                               fontSize: 17),
@@ -324,7 +377,7 @@ class _AccountSettingsState extends State<AccountSettings> {
   }
 
   Widget changeEmailForm() {
-    String oldEmail;
+    String currentEmail;
     String newEmail;
     return Form(
       key: _formKey,
@@ -334,15 +387,15 @@ class _AccountSettingsState extends State<AccountSettings> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.black,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromRGBO(51, 204, 255, 0.3),
-                    blurRadius: 20,
-                    offset: Offset(0, 10),
-                  )
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Color.fromRGBO(51, 204, 255, 0.3),
+                //     blurRadius: 20,
+                //     offset: Offset(0, 10),
+                //   )
+                // ],
               ),
               child: Column(
                 children: <Widget>[
@@ -352,25 +405,22 @@ class _AccountSettingsState extends State<AccountSettings> {
                         border: Border(
                             bottom: BorderSide(color: Colors.grey[200]))),
                     child: TextFormField(
-                      decoration:
-                          authInputFormatting.copyWith(hintText: "Old Email"),
+                      decoration: authInputFormatting.copyWith(
+                          hintText: "Current Email", fillColor: Colors.black),
                       validator: (val) =>
-                          val.isEmpty ? "First Name Can't Be Empty" : null,
+                          val.isEmpty ? "Current Email can't be empty" : null,
                       onChanged: (val) {
-                        oldEmail = val;
+                        currentEmail = val;
                       },
                     ),
                   ),
                   Container(
                     padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(color: Colors.grey[200]))),
                     child: TextFormField(
-                      decoration:
-                          authInputFormatting.copyWith(hintText: "New Email"),
+                      decoration: authInputFormatting.copyWith(
+                          hintText: "New Email", fillColor: Colors.black),
                       validator: (val) =>
-                          val.isEmpty ? "Last Name Can't Be Empty" : null,
+                          val.isEmpty ? "New Email can't be empty" : null,
                       onChanged: (val) {
                         newEmail = val;
                       },
@@ -390,6 +440,17 @@ class _AccountSettingsState extends State<AccountSettings> {
                       if (_formKey.currentState.validate()) {
                         dynamic result =
                             await UserModel().updateEmail(newEmail);
+                        final CollectionReference _userData =
+                            FirebaseFirestore.instance.collection('users');
+                        String user = FirebaseAuth.instance.currentUser.email;
+                        String time = DateTime.now().toLocal().toString();
+                        Map<String, dynamic> data = {
+                          'old_email': currentEmail,
+                          'last_update': time,
+                        };
+                        await _userData
+                            .doc(user)
+                            .set(data, SetOptions(merge: true));
                         if (result != null) {
                           setState(() {
                             _status = {
@@ -416,13 +477,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: Colors.cyan,
+                        color: Colors.black,
                       ),
                       child: Center(
                         child: Text(
                           "Update",
-                          style: TextStyle(
-                              color: Colors.white,
+                          style: GoogleFonts.montserrat(
+                              color: kGoodColor,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.5,
                               fontSize: 17),
@@ -446,13 +507,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: Colors.cyan[200],
+                        color: kGoodColor,
                       ),
                       child: Center(
                         child: Text(
                           "Cancel",
                           style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.5,
                               fontSize: 17),
@@ -481,15 +542,15 @@ class _AccountSettingsState extends State<AccountSettings> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Colors.black,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromRGBO(51, 204, 255, 0.3),
-                    blurRadius: 20,
-                    offset: Offset(0, 10),
-                  )
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Color.fromRGBO(51, 204, 255, 0.3),
+                //     blurRadius: 20,
+                //     offset: Offset(0, 10),
+                //   )
+                // ],
               ),
               child: Column(
                 children: <Widget>[
@@ -500,7 +561,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                             bottom: BorderSide(color: Colors.grey[200]))),
                     child: TextFormField(
                       decoration: authInputFormatting.copyWith(
-                          hintText: "Old Password"),
+                          hintText: "Old Password", fillColor: Colors.black),
                       validator: UserModel().validateRegisterPass,
                       obscureText: true,
                       onChanged: (val) {
@@ -510,12 +571,9 @@ class _AccountSettingsState extends State<AccountSettings> {
                   ),
                   Container(
                     padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(color: Colors.grey[200]))),
                     child: TextFormField(
                       decoration: authInputFormatting.copyWith(
-                          hintText: "New Password"),
+                          hintText: "New Password", fillColor: Colors.black),
                       validator: UserModel().validateRegisterPass,
                       obscureText: true,
                       onChanged: (val) {
@@ -536,7 +594,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                     onTap: () async {
                       if (_formKey.currentState.validate()) {
                         dynamic result =
-                            await UserModel().resetPassword(oldPass, newPass);
+                        await UserModel().resetPassword(oldPass, newPass);
                         if (result != null) {
                           setState(() {
                             _status = {
@@ -563,13 +621,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: Colors.cyan,
+                        color: Colors.black,
                       ),
                       child: Center(
                         child: Text(
                           "Update",
-                          style: TextStyle(
-                              color: Colors.white,
+                          style: GoogleFonts.montserrat(
+                              color: kGoodColor,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.5,
                               fontSize: 17),
@@ -593,13 +651,13 @@ class _AccountSettingsState extends State<AccountSettings> {
                       margin: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        color: Colors.cyan[200],
+                        color: kGoodColor,
                       ),
                       child: Center(
                         child: Text(
                           "Cancel",
-                          style: TextStyle(
-                              color: Colors.white,
+                          style: GoogleFonts.montserrat(
+                              color: Colors.black,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 1.5,
                               fontSize: 17),

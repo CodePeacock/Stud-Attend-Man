@@ -42,7 +42,7 @@ class _LoginState extends State<Login> {
               Form(
                 key: _formKey,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 45, 0, 5),
+                  padding: EdgeInsets.fromLTRB(0, 45, 0, 5),
                   child: Column(
                     children: <Widget>[
                       Container(
@@ -66,7 +66,9 @@ class _LoginState extends State<Login> {
                                       bottom: BorderSide(color: Colors.white))),
                               child: TextFormField(
                                 keyboardType: TextInputType.emailAddress,
-                                style: GoogleFonts.lato(color: Colors.white),
+                                style:
+                                    GoogleFonts.montserrat(color: Colors.white),
+                                cursorColor: kGoodColor.withRed(255),
                                 decoration: authInputFormatting.copyWith(
                                   hintText: "Enter Email",
                                   hintStyle: TextStyle(
@@ -93,7 +95,7 @@ class _LoginState extends State<Login> {
                                 style: GoogleFonts.lato(color: Colors.white),
                                 decoration: authInputFormatting.copyWith(
                                   hintText: "Enter Password",
-                                  hintStyle: TextStyle(
+                                  hintStyle: GoogleFonts.montserrat(
                                       color:
                                           Color.fromRGBO(121, 121, 121, 1.0)),
                                   border: InputBorder.none,

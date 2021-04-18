@@ -1,12 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stud_attend_man/classes/account.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
+import 'package:stud_attend_man/shared/formatting.dart';
 import 'package:stud_attend_man/shared/loading_screen.dart';
-
-import 'formatting.dart';
 
 class AttendanceList extends StatefulWidget {
   @override
@@ -33,20 +31,20 @@ class _AttendanceListState extends State<AttendanceList> {
         body: Column(
       children: <Widget>[
         Container(
-          color: Colors.white,
+          color: Colors.black,
           child: Stack(
             children: <Widget>[
               Container(
                 padding: EdgeInsets.fromLTRB(5, 60, 30, 50),
                 decoration: BoxDecoration(
-                    color: Colors.cyan,
+                    color: kGlobalContainerColor,
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(50),
                         bottomRight: Radius.circular(50))),
                 child: Row(
                   children: <Widget>[
                     BackButton(
-                      color: Colors.white70,
+                      color: kGoodColor,
                     ),
                     Expanded(
                         child: Text(
@@ -59,16 +57,16 @@ class _AttendanceListState extends State<AttendanceList> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.black,
                           borderRadius: BorderRadius.all(Radius.circular(50))),
                       child: TextButton.icon(
                         label: Text('Log Out',
-                            style: TextStyle(
-                                color: Colors.cyan,
+                            style: GoogleFonts.montserrat(
+                                color: kGoodColor,
                                 fontWeight: FontWeight.bold)),
                         icon: Icon(
                           Icons.exit_to_app,
-                          color: Colors.cyan,
+                          color: kGoodColor,
                           size: 15,
                         ),
                         onPressed: () async {
@@ -86,15 +84,15 @@ class _AttendanceListState extends State<AttendanceList> {
               Container(
                 margin: EdgeInsets.fromLTRB(40, 130, 40, 20),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: kGlobalContainerColor,
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromRGBO(51, 204, 255, 0.3),
-                      blurRadius: 10,
-                      offset: Offset(0, 10),
-                    )
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Color.fromRGBO(51, 204, 255, 0.3),
+                  //     blurRadius: 10,
+                  //     offset: Offset(0, 10),
+                  //   )
+                  // ],
                 ),
                 child: Container(
                   padding: EdgeInsets.all(6.5),
@@ -116,7 +114,7 @@ class _AttendanceListState extends State<AttendanceList> {
         Expanded(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
-            color: Colors.white,
+            color: Colors.black,
             child: EnhancedFutureBuilder(
               future: setup(data['teacherEmail'], data['subject'],
                   data['batch'], data['studentEmail']),
@@ -145,35 +143,39 @@ class _AttendanceListState extends State<AttendanceList> {
         child: Column(
           children: <Widget>[
             Card(
+              margin: EdgeInsets.only(top: 10),
+              color: kGlobalContainerColor,
+              elevation: 3.0,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(
-                      'Teacher',
-                      style: GoogleFonts.lato(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
-                    ),
+                    // Text(
+                    //   'Subject',
+                    //   style: GoogleFonts.lato(
+                    //       color: Colors.black,
+                    //       fontWeight: FontWeight.bold,
+                    //       fontSize: 16),
+                    // ),
                     Text(
                       'Date',
                       style: GoogleFonts.lato(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: 16),
+                          fontSize: 20),
                     ),
                     Text('Time',
-                        style: GoogleFonts.lato(
-                            color: Colors.black,
+                        style: GoogleFonts.raleway(
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 16)),
+                            fontSize: 20)),
                     Text('A/P',
-                        style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16)),
+                        style: GoogleFonts.raleway(
+                          color: Colors.greenAccent,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        )),
                   ],
                 ),
               ),
@@ -181,57 +183,66 @@ class _AttendanceListState extends State<AttendanceList> {
             Expanded(
               child: ListView.builder(
                 itemCount: time.length,
+                addAutomaticKeepAlives: true,
                 itemBuilder: (context, index) {
                   Map data = ModalRoute.of(context).settings.arguments;
-                  // print(data);
+                  print(data);
                   return Card(
                     elevation: 3,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                    margin: EdgeInsets.only(top: 10),
+                    color: kGlobalCardColor,
+                    // shape: RoundedRectangleBorder(
+                    //     borderRadius: BorderRadius.circular(20)),
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(15, 20, 15, 20),
-                      child: Wrap(
-                        alignment: WrapAlignment.spaceBetween,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        textDirection: TextDirection.ltr,
                         children: <Widget>[
-                          FutureBuilder(
-                            future: FirebaseFirestore.instance
-                                .collection('users')
-                                .doc('fighterapache101@gmail.com')
-                                .get(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<DocumentSnapshot> snapshot) {
-                              var fullName = snapshot.data.data()['fistName'] +
-                                  ' ' +
-                                  snapshot.data.data()['lastName'];
-                              return fullName != null
-                                  ? Text(
-                                      fullName,
-                                      style: GoogleFonts.lato(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    )
-                                  : Text("No data");
-                            },
-                          ),
+                          // FutureBuilder(
+                          //   future: FirebaseFirestore.instance
+                          //       .collection('users')
+                          //       .doc(_auth.email)
+                          //       .get(),
+                          //   builder: (BuildContext context,
+                          //       AsyncSnapshot<DocumentSnapshot> snapshot) {
+                          //     var fullName = snapshot.data.data()['firstName'] +
+                          //         ' ' +
+                          //         snapshot.data.data()['lastName'];
+                          //     // assert(fullName != null);
+                          //     return fullName != null
+                          //         ? Text(
+                          //             fullName,
+                          //             style: GoogleFonts.lato(
+                          //                 color: Colors.black,
+                          //                 fontWeight: FontWeight.bold,
+                          //                 fontSize: 12),
+                          //           )
+                          //         : Text("No data");
+                          //   },
+                          // ),
                           Text(
                             '${time[index].substring(0, 10)}',
-                            style: TextStyle(
-                              color: Colors.blue,
-                            ),
+                            style: GoogleFonts.raleway(
+                                color: Colors.cyanAccent,
+                                fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            '${time[index].substring(12, 21)} \n to ${time[index].substring(23, (time[index].length))}',
-                            style: TextStyle(color: Colors.black),
+                            '${time[index].substring(12, 21)} - ${time[index].substring(23, (time[index].length))}',
+                            style: GoogleFonts.raleway(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                           ),
+                          SizedBox(width: 10),
                           _attendanceList[time[index]]
                               ? Icon(
                                   Icons.check_circle_outline,
-                                  color: Colors.green,
+                                  color: Colors.greenAccent,
                                 )
                               : Icon(
                                   Icons.check_circle_outline,
-                                  color: Colors.red,
+                                  color: Colors.red.shade900,
                                 ),
                         ],
                       ),

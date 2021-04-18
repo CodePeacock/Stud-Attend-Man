@@ -1,7 +1,8 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enhanced_future_builder/enhanced_future_builder.dart';
-import 'package:firebase_auth/firebase_auth.dart' show User;
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, User;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class _StudentHomeState extends State<StudentHome> {
   Map _enrollmentDetails = {};
   Map _enrollmentDetailsVisible = {};
   List _keys = [];
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final _scaffoldKey = GlobalKey<ScaffoldState>(debugLabel: 'Scaffold');
   String userName = '';
   String _url = "http://flutter.dev/";
   User user;
@@ -50,14 +51,14 @@ class _StudentHomeState extends State<StudentHome> {
     setState(() {});
   }
 
-  void _launchURL() async => await canLaunch(_url)
-      ? await launch(_url)
-      : throw 'Could not launch $_url';
-
   @override
   Widget build(BuildContext context) {
+    void _launchURL() async => await canLaunch(_url)
+        ? await launch(_url)
+        : throw 'Could not launch $_url';
     return Scaffold(
         key: _scaffoldKey,
+        resizeToAvoidBottomInset: true,
         endDrawer: Drawer(
           child: Column(
             children: <Widget>[
@@ -69,25 +70,25 @@ class _StudentHomeState extends State<StudentHome> {
                       margin: EdgeInsets.zero,
                       decoration: BoxDecoration(
                           color: Color.fromRGBO(183, 22, 220, 1.0)),
-                      currentAccountPicture: CircleAvatar(
-                        maxRadius: 50,
-                        // backgroundColor: Colors.transparent,
-                        foregroundImage: AssetImage('images/nasa.png'),
-                        backgroundImage: AssetImage('images/door.png'),
+                      currentAccountPicture: Image.asset(
+                        'images/student.png',
+                        fit: BoxFit.scaleDown,
                       ),
                       accountName: Text(
                         userName,
-                        style: GoogleFonts.raleway(
-                            color: Colors.white, fontSize: 20),
+                        style: GoogleFonts.montserrat(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                       accountEmail: Text(
                         // _email,
                         Provider.of<User>(context).email,
-                        style:
-                            GoogleFonts.lato(color: Colors.white, fontSize: 12),
+                        style: GoogleFonts.raleway(
+                            color: Colors.white70, fontSize: 14),
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
               Expanded(
@@ -95,24 +96,24 @@ class _StudentHomeState extends State<StudentHome> {
                   color: kGlobalContainerColor,
                   child: ListView(
                     children: <Widget>[
-                      ListTile(
-                        title: Text(
-                          'Enrollment Requests',
-                          style: GoogleFonts.montserrat(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400),
-                        ),
-                        dense: true,
-                        trailing: Icon(
-                          Icons.edit_rounded,
-                          color: kGoodIconColor,
-                        ),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pushNamed('/accountSettings');
-                        },
-                      ),
+                      // ListTile(
+                      //   title: Text(
+                      //     'Enrollment Requests',
+                      //     style: GoogleFonts.montserrat(
+                      //         color: Colors.white,
+                      //         fontSize: 18,
+                      //         fontWeight: FontWeight.w400),
+                      //   ),
+                      //   dense: true,
+                      //   trailing: Icon(
+                      //     Icons.edit_rounded,
+                      //     color: kGoodColor,
+                      //   ),
+                      //   onTap: () {
+                      //     Navigator.of(context).pop();
+                      //     Navigator.of(context).pushNamed('/accountSettings');
+                      //   },
+                      // ),
                       ListTile(
                         title: Text('Account Settings',
                             style: GoogleFonts.montserrat(
@@ -125,24 +126,23 @@ class _StudentHomeState extends State<StudentHome> {
                         },
                       ),
                       AboutListTile(
-                        applicationName: 'Student Attendance Management',
+                        applicationName: 'S.A.M',
                         applicationVersion: '0.1',
                         applicationIcon: SamLogo(
-                          height: 30,
-                          width: 30,
+                          height: 50,
+                          width: 50,
                         ),
                         applicationLegalese: 'Made possible by Flutter',
-                        dense: true,
-                        aboutBoxChildren: [
-                          TextButton(
-                            child: Text(
-                              'Learn More',
-                              style:
-                                  GoogleFonts.montserrat(color: Colors.black),
-                            ),
-                            onPressed: _launchURL,
-                          ),
-                        ],
+                        // aboutBoxChildren: [
+                        //   TextButton(
+                        //     child: Text(
+                        //       'Learn More',
+                        //       style:
+                        //           GoogleFonts.montserrat(color: Colors.black),
+                        //     ),
+                        //     onPressed: _launchURL,
+                        //   ),
+                        // ],
                         child: Text(
                           'About S.A.M',
                           style: GoogleFonts.montserrat(
@@ -188,15 +188,15 @@ class _StudentHomeState extends State<StudentHome> {
                           decoration: BoxDecoration(
                               color: Colors.black,
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(50))),
+                              BorderRadius.all(Radius.circular(50))),
                           child: TextButton.icon(
                             label: Text('Log Out',
                                 style: TextStyle(
-                                    color: kGoodIconColor,
+                                    color: kGoodColor,
                                     fontWeight: FontWeight.bold)),
                             icon: Icon(
                               Icons.exit_to_app,
-                              color: kGoodIconColor,
+                              color: kGoodColor,
                               size: 15,
                             ),
                             onPressed: () async {
@@ -240,23 +240,23 @@ class _StudentHomeState extends State<StudentHome> {
                               onChanged: (val) {
                                 setState(() {
                                   _enrollmentDetailsVisible =
-                                      Map.from(_enrollmentDetails)
-                                        ..removeWhere((k, v) => !((v['subject']
-                                                    .toString()
-                                                    .toLowerCase()
-                                                    .startsWith(
-                                                        val.toLowerCase()) ||
-                                                v['teacherEmail']
-                                                    .toString()
-                                                    .toLowerCase()
-                                                    .startsWith(
-                                                        val.toLowerCase()) ||
-                                                v['batch']
-                                                    .toString()
-                                                    .toLowerCase()
-                                                    .startsWith(
-                                                        val.toLowerCase())) &&
-                                            v['active']));
+                                  Map.from(_enrollmentDetails)
+                                    ..removeWhere((k, v) => !((v['subject']
+                                        .toString()
+                                        .toLowerCase()
+                                        .startsWith(
+                                        val.toLowerCase()) ||
+                                        v['teacherEmail']
+                                            .toString()
+                                            .toLowerCase()
+                                            .startsWith(
+                                            val.toLowerCase()) ||
+                                        v['batch']
+                                            .toString()
+                                            .toLowerCase()
+                                            .startsWith(
+                                            val.toLowerCase())) &&
+                                        v['active']));
                                   _keys =
                                       _enrollmentDetailsVisible.keys.toList();
                                 });
@@ -264,7 +264,7 @@ class _StudentHomeState extends State<StudentHome> {
                             ),
                           ),
                           IconButton(
-                            icon: Icon(Icons.menu, color: kGoodIconColor),
+                            icon: Icon(Icons.menu, color: kGoodColor),
                             onPressed: () {
                               setState(() {
                                 _scaffoldKey.currentState.openEndDrawer();
@@ -301,6 +301,14 @@ class _StudentHomeState extends State<StudentHome> {
     return ListView.builder(
       itemCount: _keys.length,
       itemBuilder: (context, index) {
+        User _auth = FirebaseAuth.instance.currentUser;
+        var data = FirebaseFirestore.instance
+            .collection('users')
+            .where(_auth,
+                isEqualTo: _enrollmentDetailsVisible[_keys[index]]
+                    ['teacherEmail'])
+            .snapshots();
+        print(data);
         return Card(
           margin: EdgeInsets.symmetric(vertical: 7),
           elevation: 4,
@@ -308,6 +316,7 @@ class _StudentHomeState extends State<StudentHome> {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 10),
               onTap: () {
                 Navigator.pushNamed(context, '/attendanceList', arguments: {
                   'teacherEmail': _enrollmentDetailsVisible[_keys[index]]
@@ -326,9 +335,9 @@ class _StudentHomeState extends State<StudentHome> {
                       children: <Widget>[
                         Text(
                           '${_enrollmentDetailsVisible[_keys[index]]['subject']} (${_enrollmentDetailsVisible[_keys[index]]['batch']})',
-                          style: GoogleFonts.nunito(
+                          style: GoogleFonts.ubuntu(
                             color: Colors.white,
-                            fontSize: 14,
+                            fontSize: 12,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -342,7 +351,6 @@ class _StudentHomeState extends State<StudentHome> {
                             fontSize: 10,
                             fontStyle: FontStyle.italic,
                             decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -350,7 +358,7 @@ class _StudentHomeState extends State<StudentHome> {
                   ),
                   Icon(
                     Icons.forward,
-                    color: kGoodIconColor,
+                    color: kGoodColor,
                   )
                 ],
               ),

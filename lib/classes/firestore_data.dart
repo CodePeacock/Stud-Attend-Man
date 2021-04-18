@@ -43,7 +43,7 @@ class UserDataBase {
       await _userData.doc(user.email).get().then((DocumentSnapshot ds) {
         data = ds;
       });
-      return (data.data()['fistName'].toString() +
+      return (data.data()['firstName'].toString() +
           " " +
           data.data()['lastName'].toString());
     } catch (e) {
@@ -55,7 +55,7 @@ class UserDataBase {
   Future<String> updateUserName(String firstName, String lastName) async {
     try {
       await _userData.doc(user.email).update({
-        'fistName': firstName,
+        'firstName': firstName,
         'lastName': lastName,
       });
       return 'Success';
@@ -93,7 +93,7 @@ class TeacherSubjectsAndBatches {
   final User user;
 
   final CollectionReference _teachers =
-      FirebaseFirestore.instance.collection('/teachers-data');
+      FirebaseFirestore.instance.collection('teachers-data');
 
   Future<String> addSubject(String subject) async {
     try {

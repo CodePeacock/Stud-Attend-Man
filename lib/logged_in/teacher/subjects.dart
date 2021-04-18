@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:stud_attend_man/classes/account.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
 import 'package:stud_attend_man/shared/formatting.dart';
+import 'package:stud_attend_man/shared/teacher_drawer_header.dart';
 
 class Subjects extends StatefulWidget {
   @override
@@ -51,35 +52,7 @@ class _SubjectsState extends State<Subjects> {
         endDrawer: Drawer(
           child: Column(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: UserAccountsDrawerHeader(
-                      arrowColor: Colors.black,
-                      margin: EdgeInsets.zero,
-                      currentAccountPicture: CircleAvatar(
-                        maxRadius: 50,
-                        // backgroundColor: Colors.transparent,
-                        foregroundImage: AssetImage('images/nasa.png'),
-                        backgroundImage: AssetImage('images/door.png'),
-                      ),
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(183, 22, 220, 1.0)),
-                      accountName: Text(
-                        _userName,
-                        style: GoogleFonts.raleway(
-                            color: Colors.white, fontSize: 20),
-                      ),
-                      accountEmail: Text(
-                        // _email,
-                        Provider.of<User>(context).email,
-                        style:
-                            GoogleFonts.lato(color: Colors.white, fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              TeacherDrawerHeader(userName: _userName),
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(color: Colors.black),
@@ -161,11 +134,11 @@ class _SubjectsState extends State<Subjects> {
                           child: TextButton.icon(
                             label: Text('Log Out',
                                 style: GoogleFonts.notoSans(
-                                    color: kGoodIconColor,
+                                    color: kGoodColor,
                                     fontWeight: FontWeight.bold)),
                             icon: Icon(
                               Icons.exit_to_app,
-                              color: kGoodIconColor,
+                              color: kGoodColor,
                               size: 15,
                             ),
                             onPressed: () async {
@@ -221,8 +194,7 @@ class _SubjectsState extends State<Subjects> {
                         ),
                         IconButton(
                           color: Color.fromRGBO(23, 23, 23, 1.0),
-                          icon:
-                              Icon(Icons.menu, color: kGoodIconColor, size: 30),
+                          icon: Icon(Icons.menu, color: kGoodColor, size: 30),
                           onPressed: () async {
                             _scaffoldKey.currentState.openEndDrawer();
                           },
@@ -265,8 +237,9 @@ class _SubjectsState extends State<Subjects> {
               : Container(),
           _subjects[0] == 'Empty'
               ? Text(
-                  'You Need To Add Subjects',
-                  style: TextStyle(color: Colors.red),
+            'You Need To Add Subjects',
+                  style: GoogleFonts.raleway(
+                      color: Colors.redAccent, fontWeight: FontWeight.bold),
                 )
               : Expanded(
                   child: ListView.builder(
@@ -275,7 +248,7 @@ class _SubjectsState extends State<Subjects> {
                     itemCount: _subjectsVisible.length,
                     itemBuilder: (context, index) {
                       return Card(
-                        color: kGlobalBackgroundColor,
+                        color: kGlobalCardColor,
                         elevation: 3,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -381,12 +354,14 @@ class _SubjectsState extends State<Subjects> {
                                     });
                               }
                             },
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
                             title: Row(
                               children: <Widget>[
                                 Expanded(
                                     child: Text(
                                   '${_subjectsVisible[index]}',
-                                  style: GoogleFonts.nunito(
+                                  style: GoogleFonts.raleway(
                                     color: Colors.white,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
@@ -394,12 +369,12 @@ class _SubjectsState extends State<Subjects> {
                                 )),
                                 _delete
                                     ? Icon(
-                                        Icons.delete,
-                                        color: kGoodIconColor,
+                                  Icons.delete,
+                                        color: kGoodColor,
                                       )
                                     : Icon(
-                                        Icons.forward,
-                                        color: kGoodIconColor,
+                                  Icons.forward,
+                                        color: kGoodColor,
                                       )
                               ],
                             ),
@@ -425,24 +400,23 @@ class _SubjectsState extends State<Subjects> {
               });
             },
             child: Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
               padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
               decoration: BoxDecoration(
-                  color: Colors.cyan,
+                  color: Colors.black,
                   borderRadius: BorderRadius.all(Radius.circular(50))),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(
-                    Icons.add,
-                    color: Colors.white,
-                    size: 25,
+                    Icons.note_add_rounded,
+                    color: kGoodColor,
+                    size: 23,
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
+                  SizedBox(width: 5),
                   Text(
-                    'Add',
-                    style: TextStyle(
+                    'Add Subject',
+                    style: GoogleFonts.sourceSansPro(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: 18),
@@ -481,24 +455,25 @@ class _SubjectsState extends State<Subjects> {
             });
           },
           child: Container(
+            margin: EdgeInsets.only(top: 10),
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             decoration: BoxDecoration(
-                color: Colors.cyan,
+                color: Colors.black,
                 borderRadius: BorderRadius.all(Radius.circular(50))),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 25,
+                  Icons.check_circle_rounded,
+                  color: kGoodColor,
+                  size: 23,
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 5,
                 ),
                 Text(
                   'Done',
-                  style: TextStyle(
+                  style: GoogleFonts.sourceSansPro(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 18),
@@ -558,15 +533,16 @@ class _SubjectsState extends State<Subjects> {
                                 // ],
                               ),
                               child: TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                style: GoogleFonts.lato(color: Colors.white),
+                                keyboardType: TextInputType.name,
+                                style: GoogleFonts.lato(
+                                    color: Colors.white, fontSize: 14),
                                 decoration: authInputFormatting.copyWith(
-                                  hintText: "Enter Email",
+                                  hintText: "Add Subject",
                                   hintStyle: TextStyle(
                                       color:
                                           Color.fromRGBO(121, 121, 121, 1.0)),
                                   border: InputBorder.none,
-                                  fillColor: Color.fromRGBO(23, 23, 23, 1.0),
+                                  fillColor: Color.fromRGBO(20, 20, 20, 1.0),
                                 ),
                                 validator: (val) => val.isEmpty
                                     ? 'Subject Name Can\'t Be Empty'
@@ -579,7 +555,12 @@ class _SubjectsState extends State<Subjects> {
                             ),
                             adding
                                 ? Center(
-                                    child: Text("Adding ..."),
+                                    child: Text(
+                                      "Adding ...",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w900),
+                                    ),
                                   )
                                 : Row(
                                     children: <Widget>[
@@ -589,7 +570,7 @@ class _SubjectsState extends State<Subjects> {
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 45, vertical: 15),
                                             decoration: BoxDecoration(
-                                              color: Colors.cyan,
+                                              color: Colors.black,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20)),
                                             ),
@@ -652,7 +633,7 @@ class _SubjectsState extends State<Subjects> {
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 45, vertical: 15),
                                             decoration: BoxDecoration(
-                                              color: Colors.cyan,
+                                              color: Colors.black,
                                               borderRadius: BorderRadius.all(
                                                   Radius.circular(20)),
                                             ),

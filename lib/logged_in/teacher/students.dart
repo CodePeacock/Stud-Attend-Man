@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:stud_attend_man/classes/account.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
 import 'package:stud_attend_man/shared/formatting.dart';
+import 'package:stud_attend_man/shared/teacher_drawer_header.dart';
 
 class EnrolledStudents extends StatefulWidget {
   @override
@@ -49,87 +50,78 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
         endDrawer: Drawer(
           child: Column(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(18, 95, 0, 20),
-                      color: Colors.cyan,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            _userName,
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            Provider.of<User>(context).email,
-                            style: TextStyle(color: Colors.white, fontSize: 12),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              TeacherDrawerHeader(userName: _userName),
               Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    ListTile(
-                      title: Text('Add Student'),
-                      onTap: () async {
-                        Navigator.of(context).pop();
-                        dynamic returnedData = await Navigator.pushNamed(
-                            context, '/addStudents', arguments: {
-                          'enrolledStudents': _students,
-                          'batch': _batch,
-                          'subject': _subject
-                        });
-                        if (returnedData != null) {
-                          if (_studentsMap['Empty']) {
-                            _studentsMap['Empty'] = false;
-                          }
-                          setState(() {
-                            _studentsMap['${returnedData['studentAdded']}'] =
-                                false;
-                            _students.add(returnedData['studentAdded']);
-                            _studentsVisible.add(returnedData['studentAdded']);
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.black),
+                  child: ListView(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(
+                          'Add Student',
+                          style: GoogleFonts.quicksand(color: Colors.white),
+                        ),
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          dynamic returnedData = await Navigator.pushNamed(
+                              context, '/addStudents', arguments: {
+                            'enrolledStudents': _students,
+                            'batch': _batch,
+                            'subject': _subject
                           });
-                        }
-                      },
-                    ),
-                    ListTile(
-                      title: Text('Remove Student'),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        setState(() {
-                          _removeStudents = true;
-                        });
-                      },
-                    ),
-                    ListTile(
-                      title: Text('Add Attendance'),
-                      onTap: () async {
-                        Navigator.of(context).pop();
-                        await Navigator.pushNamed(context, '/addAttendance',
-                            arguments: {
-                              'enrolledStudents': _students,
-                              'subject': _subject,
-                              'batch': _batch
+                          if (returnedData != null) {
+                            if (_studentsMap['Empty']) {
+                              _studentsMap['Empty'] = false;
+                            }
+                            setState(() {
+                              _studentsMap['${returnedData['studentAdded']}'] =
+                                  false;
+                              _students.add(returnedData['studentAdded']);
+                              _studentsVisible
+                                  .add(returnedData['studentAdded']);
                             });
-                      },
-                    ),
-                    ListTile(
-                      title: Text('Account Settings'),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pushNamed('/accountSettings');
-                      },
-                    ),
-                  ],
+                          }
+                        },
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Remove Student',
+                          style: GoogleFonts.quicksand(color: Colors.white),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          setState(() {
+                            _removeStudents = true;
+                          });
+                        },
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Add Attendance',
+                          style: GoogleFonts.quicksand(color: Colors.white),
+                        ),
+                        onTap: () async {
+                          Navigator.of(context).pop();
+                          await Navigator.pushNamed(context, '/addAttendance',
+                              arguments: {
+                                'enrolledStudents': _students,
+                                'subject': _subject,
+                                'batch': _batch
+                              });
+                        },
+                      ),
+                      ListTile(
+                        title: Text(
+                          'Account Settings',
+                          style: GoogleFonts.quicksand(color: Colors.white),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pushNamed('/accountSettings');
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],
@@ -151,7 +143,7 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                     child: Row(
                       children: <Widget>[
                         BackButton(
-                          color: Colors.white70,
+                          color: kGoodColor,
                         ),
                         Expanded(
                             child: Text(
@@ -169,12 +161,12 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                   BorderRadius.all(Radius.circular(50))),
                           child: TextButton.icon(
                             label: Text('Log Out',
-                                style: TextStyle(
-                                    color: kGoodIconColor,
+                                style: GoogleFonts.montserrat(
+                                    color: kGoodColor,
                                     fontWeight: FontWeight.bold)),
                             icon: Icon(
                               Icons.exit_to_app,
-                              color: kGoodIconColor,
+                              color: kGoodColor,
                               size: 15,
                             ),
                             onPressed: () async {
@@ -192,7 +184,7 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                   Container(
                     margin: EdgeInsets.fromLTRB(40, 130, 40, 20),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: kGlobalContainerColor,
                       borderRadius: BorderRadius.circular(20),
                       // boxShadow: [
                       //   BoxShadow(
@@ -208,8 +200,14 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                           child: Container(
                             padding: EdgeInsets.all(6.5),
                             child: TextFormField(
+                              style: GoogleFonts.lato(color: Colors.white),
                               decoration: authInputFormatting.copyWith(
-                                  hintText: "Search By ID"),
+                                hintText: "Search By ID",
+                                hintStyle: TextStyle(
+                                    color: Color.fromRGBO(121, 121, 121, 1.0)),
+                                border: InputBorder.none,
+                                fillColor: Color.fromRGBO(23, 23, 23, 1.0),
+                              ),
                               onChanged: (val) {
                                 setState(() {
                                   _studentsVisible = _students
@@ -223,7 +221,7 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(Icons.menu, color: Colors.cyan),
+                          icon: Icon(Icons.menu, color: kGoodColor),
                           onPressed: () {
                             _scaffoldKey.currentState.openEndDrawer();
                           },
@@ -280,30 +278,43 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                     itemBuilder: (context, index) {
                       return Card(
                         elevation: 3,
-                        color: kGlobalBackgroundColor,
+                        color: kGlobalCardColor,
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: ListTile(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10),
+                            trailing: _removeStudents
+                                ? Icon(
+                                    Icons.delete,
+                                    color: kGoodColor,
+                                  )
+                                : Icon(
+                                    Icons.forward,
+                                    color: kGoodColor,
+                                  ),
                             title: Row(
                               children: <Widget>[
                                 Expanded(
                                     child: Text(
-                                  '${_studentsVisible[index]}',
-                                  style: GoogleFonts.nunito(
+                                  '${_studentsVisible[index]}' != null
+                                      ? '${_studentsVisible[index]}'
+                                      : 'Loading Data',
+                                  style: GoogleFonts.ubuntu(
                                     color: Colors.white,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    // decoration: TextDecoration.underline,
+                                    // decorationStyle: TextDecorationStyle.wavy,
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black,
+                                        blurRadius: 8,
+                                        offset: Offset(0, 10),
+                                      ),
+                                    ],
                                   ),
                                 )),
-                                _removeStudents
-                                    ? Icon(
-                                        Icons.delete,
-                                        color: kGoodIconColor,
-                                      )
-                                    : Icon(
-                                        Icons.forward,
-                                        color: kGoodIconColor,
-                                      ),
                               ],
                             ),
                             onTap: () async {
@@ -314,7 +325,7 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                       return Dialog(
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(20.0)),
+                                            BorderRadius.circular(20.0)),
                                         child: Container(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 20, vertical: 20),
@@ -356,13 +367,13 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                                       onPressed: () async {
                                                         dynamic result = await _tSAB
                                                             .deleteStudent(
-                                                                _subject,
-                                                                _batch,
-                                                                _studentsVisible[
-                                                                    index]);
-                                                        String deleted =
+                                                            _subject,
+                                                            _batch,
                                                             _studentsVisible[
-                                                                index];
+                                                            index]);
+                                                        String deleted =
+                                                        _studentsVisible[
+                                                        index];
                                                         if (result ==
                                                             'Success') {
                                                           Navigator.of(context)
@@ -371,29 +382,29 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                                             _error = '';
                                                             _studentsVisible
                                                                 .remove(
-                                                                    deleted);
+                                                                deleted);
                                                             _students.remove(
                                                                 deleted);
                                                             _studentsMap
                                                                 .removeWhere((key,
-                                                                        value) =>
-                                                                    key ==
-                                                                    deleted);
+                                                                value) =>
+                                                            key ==
+                                                                deleted);
                                                           });
                                                           if (_students
                                                               .isEmpty) {
                                                             setState(() {
                                                               _removeStudents =
-                                                                  false;
+                                                              false;
                                                               _studentsMap[
-                                                                      'Empty'] =
-                                                                  true;
+                                                              'Empty'] =
+                                                              true;
                                                             });
                                                           }
                                                         } else {
                                                           setState(() {
                                                             _error =
-                                                                "Couldn't delete ${_studentsVisible[index]}";
+                                                            "Couldn't delete ${_studentsVisible[index]}";
                                                           });
                                                           Navigator.of(context)
                                                               .pop();
@@ -415,8 +426,8 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                       context, '/attendanceList',
                                       arguments: {
                                         'teacherEmail': Provider.of<User>(
-                                                context,
-                                                listen: false)
+                                            context,
+                                            listen: false)
                                             .email,
                                         'subject': _subject,
                                         'batch': _batch,
@@ -429,7 +440,7 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                         return Dialog(
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(20.0)),
+                                              BorderRadius.circular(20.0)),
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 20, vertical: 20),
@@ -497,24 +508,25 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
         }
       },
       child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         decoration: BoxDecoration(
-            color: Colors.cyan,
+            color: Colors.black,
             borderRadius: BorderRadius.all(Radius.circular(50))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(
-              Icons.add,
-              color: Colors.white,
-              size: 20,
+              Icons.person_add_alt_1_rounded,
+              color: kGoodColor,
+              size: 23,
             ),
             SizedBox(
               width: 5,
             ),
             Text(
               'Student',
-              style: TextStyle(
+              style: GoogleFonts.sourceSansPro(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 18),

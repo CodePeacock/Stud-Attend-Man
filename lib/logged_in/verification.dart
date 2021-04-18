@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -49,11 +50,11 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       child: TextButton.icon(
                         label: Text('Log Out',
                             style: TextStyle(
-                                color: kGoodIconColor,
+                                color: kGoodColor,
                                 fontWeight: FontWeight.bold)),
                         icon: Icon(
                           Icons.exit_to_app,
-                          color: kGoodIconColor,
+                          color: kGoodColor,
                           size: 15,
                         ),
                         onPressed: () async {
@@ -83,7 +84,9 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         : Center(
                             child: Text(
                               '$_success',
-                              style: TextStyle(color: Colors.green),
+                              style: GoogleFonts.ptSerif(
+                                  color: Colors.lightGreenAccent,
+                                  fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -95,8 +98,9 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     Text(
                       'Verify your email using the verification link sent on your signup email id. This is required to access your account and helps save us from spam accounts. Log in again after you verify your email.',
                       style: GoogleFonts.josefinSans(
-                          fontSize: 24, color: Colors.white),
+                          fontSize: 23, color: Colors.white),
                       textAlign: TextAlign.justify,
+                      softWrap: true,
                     ),
                     SizedBox(
                       height: 50,
@@ -104,7 +108,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     TextButton(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all<Color>(kGoodIconColor),
+                            MaterialStateProperty.all<Color>(kGoodColor),
                         visualDensity: VisualDensity.adaptivePlatformDensity,
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
@@ -121,7 +125,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                                 }));
                       },
                       child: Text(
-                        'Re-Send Verification Email',
+                        'Send Verification Email',
                         softWrap: true,
                         style: GoogleFonts.dosis(
                             color: Colors.white,

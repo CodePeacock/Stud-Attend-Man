@@ -4,6 +4,7 @@ import 'package:enhanced_future_builder/enhanced_future_builder.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
 import 'package:stud_attend_man/shared/formatting.dart';
@@ -47,6 +48,7 @@ class _AddStudentsState extends State<AddStudents> {
 
   Widget addStudents() {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: Container(
         padding: EdgeInsets.fromLTRB(10, 50, 10, 0),
         child: Column(
@@ -54,27 +56,30 @@ class _AddStudentsState extends State<AddStudents> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: kGlobalContainerColor,
                 borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromRGBO(51, 204, 255, 0.3),
-                    blurRadius: 10,
-                    offset: Offset(0, 10),
-                  )
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Color.fromRGBO(51, 204, 255, 0.3),
+                //     blurRadius: 10,
+                //     offset: Offset(0, 10),
+                //   ),
+                // ],
               ),
               child: Container(
                 padding: EdgeInsets.all(6.5),
                 child: Row(
                   children: <Widget>[
                     BackButton(
-                      color: Colors.grey[700],
+                      color: kGoodColor,
                     ),
                     Expanded(
                       child: TextFormField(
+                        style:
+                            GoogleFonts.lato(color: Colors.white, fontSize: 14),
                         decoration: authInputFormatting.copyWith(
-                            hintText: "Search Student By Email"),
+                            hintText: "Search Student By Email",
+                            fillColor: kGlobalContainerColor),
                         onChanged: (val) {
                           setState(() {
                             _filteredStudents = _allStudents
@@ -92,16 +97,18 @@ class _AddStudentsState extends State<AddStudents> {
             ),
             Center(
                 child: Text(
-              _message,
-              style: TextStyle(color: Colors.red),
-            )),
+                  _message,
+                  style: TextStyle(color: Colors.red),
+                )),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 0, 15, 20),
+                padding: EdgeInsets.fromLTRB(15, 0, 15, 20),
                 child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Card(
-                      elevation: 1,
+                      elevation: 3,
+                      color: kGlobalCardColor,
                       child: Container(
                         padding: EdgeInsets.all(6.5),
                         child: ListTile(
@@ -120,7 +127,7 @@ class _AddStudentsState extends State<AddStudents> {
                             } else {
                               setState(() {
                                 _message =
-                                    "Something Went Wrong Couldn't Add Student";
+                                "Something Went Wrong Couldn't Add Student";
                               });
                             }
                           },
@@ -128,12 +135,16 @@ class _AddStudentsState extends State<AddStudents> {
                             children: <Widget>[
                               Expanded(
                                   child: Text(
-                                '${_filteredStudents[index]}',
-                                style: TextStyle(color: Colors.cyan),
+                                    '${_filteredStudents[index]}',
+                                style: GoogleFonts.montserrat(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               )),
                               Icon(
                                 Icons.add_circle_outline,
-                                color: Colors.blueGrey,
+                                color: kGoodColor,
                               )
                             ],
                           ),
