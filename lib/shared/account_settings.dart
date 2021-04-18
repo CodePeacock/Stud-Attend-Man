@@ -45,12 +45,12 @@ class _AccountSettingsState extends State<AccountSettings> {
                         ),
                         Expanded(
                             child: Text(
-                              'Account Settings',
-                              style: GoogleFonts.quicksand(
+                          'Account Settings',
+                          style: GoogleFonts.quicksand(
                               color: Colors.white,
                               fontSize: 24,
                               fontWeight: FontWeight.bold),
-                            )),
+                        )),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
@@ -405,6 +405,8 @@ class _AccountSettingsState extends State<AccountSettings> {
                         border: Border(
                             bottom: BorderSide(color: Colors.grey[200]))),
                     child: TextFormField(
+                      style:
+                          GoogleFonts.lato(color: Colors.white, fontSize: 14),
                       decoration: authInputFormatting.copyWith(
                           hintText: "Current Email", fillColor: Colors.black),
                       validator: (val) =>
@@ -417,6 +419,8 @@ class _AccountSettingsState extends State<AccountSettings> {
                   Container(
                     padding: EdgeInsets.all(10.0),
                     child: TextFormField(
+                      style:
+                          GoogleFonts.lato(color: Colors.white, fontSize: 14),
                       decoration: authInputFormatting.copyWith(
                           hintText: "New Email", fillColor: Colors.black),
                       validator: (val) =>
@@ -560,6 +564,8 @@ class _AccountSettingsState extends State<AccountSettings> {
                         border: Border(
                             bottom: BorderSide(color: Colors.grey[200]))),
                     child: TextFormField(
+                      style:
+                          GoogleFonts.lato(color: Colors.white, fontSize: 14),
                       decoration: authInputFormatting.copyWith(
                           hintText: "Old Password", fillColor: Colors.black),
                       validator: UserModel().validateRegisterPass,
@@ -572,6 +578,8 @@ class _AccountSettingsState extends State<AccountSettings> {
                   Container(
                     padding: EdgeInsets.all(10.0),
                     child: TextFormField(
+                      style:
+                          GoogleFonts.lato(color: Colors.white, fontSize: 14),
                       decoration: authInputFormatting.copyWith(
                           hintText: "New Password", fillColor: Colors.black),
                       validator: UserModel().validateRegisterPass,
@@ -594,7 +602,7 @@ class _AccountSettingsState extends State<AccountSettings> {
                     onTap: () async {
                       if (_formKey.currentState.validate()) {
                         dynamic result =
-                        await UserModel().resetPassword(oldPass, newPass);
+                            await UserModel().resetPassword(oldPass, newPass);
                         if (result != null) {
                           setState(() {
                             _status = {

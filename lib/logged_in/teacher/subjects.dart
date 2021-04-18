@@ -237,7 +237,7 @@ class _SubjectsState extends State<Subjects> {
               : Container(),
           _subjects[0] == 'Empty'
               ? Text(
-            'You Need To Add Subjects',
+                  'You Need To Add Subjects',
                   style: GoogleFonts.raleway(
                       color: Colors.redAccent, fontWeight: FontWeight.bold),
                 )

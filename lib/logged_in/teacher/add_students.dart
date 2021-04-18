@@ -97,9 +97,9 @@ class _AddStudentsState extends State<AddStudents> {
             ),
             Center(
                 child: Text(
-                  _message,
-                  style: TextStyle(color: Colors.red),
-                )),
+              _message,
+              style: TextStyle(color: Colors.red),
+            )),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.fromLTRB(15, 0, 15, 20),
@@ -127,7 +127,7 @@ class _AddStudentsState extends State<AddStudents> {
                             } else {
                               setState(() {
                                 _message =
-                                "Something Went Wrong Couldn't Add Student";
+                                    "Something Went Wrong Couldn't Add Student";
                               });
                             }
                           },

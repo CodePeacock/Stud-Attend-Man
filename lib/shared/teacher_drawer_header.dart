@@ -17,7 +17,10 @@ class TeacherDrawerHeader extends StatelessWidget {
     return UserAccountsDrawerHeader(
       arrowColor: Colors.black,
       margin: EdgeInsets.zero,
-      currentAccountPicture: Image.asset('images/teacher.png'),
+      currentAccountPicture: Image.asset(
+        'images/teacher.png',
+        fit: BoxFit.scaleDown,
+      ),
       decoration: BoxDecoration(color: Color.fromRGBO(183, 22, 220, 1.0)),
       accountName: Text(
         _userName,

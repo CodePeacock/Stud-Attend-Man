@@ -2,8 +2,9 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enhanced_future_builder/enhanced_future_builder.dart';
-import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, User;
+import 'package:firebase_auth/firebase_auth.dart' show User;
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:stud_attend_man/classes/account.dart';
@@ -11,7 +12,6 @@ import 'package:stud_attend_man/classes/firestore_data.dart';
 import 'package:stud_attend_man/shared/formatting.dart';
 import 'package:stud_attend_man/shared/loading_screen.dart';
 import 'package:stud_attend_man/shared/sam_logo.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class StudentHome extends StatefulWidget {
   @override
@@ -25,7 +25,8 @@ class _StudentHomeState extends State<StudentHome> {
   List _keys = [];
   final _scaffoldKey = GlobalKey<ScaffoldState>(debugLabel: 'Scaffold');
   String userName = '';
-  String _url = "http://flutter.dev/";
+
+  // String _url = "https://flutter.dev/";
   User user;
 
   Future setup(User user) async {
@@ -53,9 +54,9 @@ class _StudentHomeState extends State<StudentHome> {
 
   @override
   Widget build(BuildContext context) {
-    void _launchURL() async => await canLaunch(_url)
-        ? await launch(_url)
-        : throw 'Could not launch $_url';
+    // void _launchURL() async => await canLaunch(_url)
+    //     ? await launch(_url)
+    //     : throw 'Could not launch $_url';
     return Scaffold(
         key: _scaffoldKey,
         resizeToAvoidBottomInset: true,
@@ -69,7 +70,8 @@ class _StudentHomeState extends State<StudentHome> {
                       arrowColor: Colors.black,
                       margin: EdgeInsets.zero,
                       decoration: BoxDecoration(
-                          color: Color.fromRGBO(183, 22, 220, 1.0)),
+                        color: kGradientButtonList[0],
+                      ),
                       currentAccountPicture: Image.asset(
                         'images/student.png',
                         fit: BoxFit.scaleDown,
@@ -83,7 +85,9 @@ class _StudentHomeState extends State<StudentHome> {
                       ),
                       accountEmail: Text(
                         // _email,
-                        Provider.of<User>(context).email,
+                        Provider.of<User>(context).email != null
+                            ? Provider.of<User>(context).email
+                            : 'Loading Data',
                         style: GoogleFonts.raleway(
                             color: Colors.white70, fontSize: 14),
                       ),
@@ -116,10 +120,7 @@ class _StudentHomeState extends State<StudentHome> {
                       // ),
                       ListTile(
                         title: Text('Account Settings',
-                            style: GoogleFonts.montserrat(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400)),
+                            style: GoogleFonts.quicksand(color: Colors.white)),
                         onTap: () {
                           Navigator.of(context).pop();
                           Navigator.of(context).pushNamed('/accountSettings');
@@ -127,7 +128,7 @@ class _StudentHomeState extends State<StudentHome> {
                       ),
                       AboutListTile(
                         applicationName: 'S.A.M',
-                        applicationVersion: '0.1',
+                        applicationVersion: '0.5',
                         applicationIcon: SamLogo(
                           height: 50,
                           width: 50,
@@ -145,10 +146,7 @@ class _StudentHomeState extends State<StudentHome> {
                         // ],
                         child: Text(
                           'About S.A.M',
-                          style: GoogleFonts.montserrat(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400),
+                          style: GoogleFonts.quicksand(color: Colors.white),
                         ),
                       ),
                     ],
@@ -188,7 +186,7 @@ class _StudentHomeState extends State<StudentHome> {
                           decoration: BoxDecoration(
                               color: Colors.black,
                               borderRadius:
-                              BorderRadius.all(Radius.circular(50))),
+                                  BorderRadius.all(Radius.circular(50))),
                           child: TextButton.icon(
                             label: Text('Log Out',
                                 style: TextStyle(
@@ -240,23 +238,23 @@ class _StudentHomeState extends State<StudentHome> {
                               onChanged: (val) {
                                 setState(() {
                                   _enrollmentDetailsVisible =
-                                  Map.from(_enrollmentDetails)
-                                    ..removeWhere((k, v) => !((v['subject']
-                                        .toString()
-                                        .toLowerCase()
-                                        .startsWith(
-                                        val.toLowerCase()) ||
-                                        v['teacherEmail']
-                                            .toString()
-                                            .toLowerCase()
-                                            .startsWith(
-                                            val.toLowerCase()) ||
-                                        v['batch']
-                                            .toString()
-                                            .toLowerCase()
-                                            .startsWith(
-                                            val.toLowerCase())) &&
-                                        v['active']));
+                                      Map.from(_enrollmentDetails)
+                                        ..removeWhere((k, v) => !((v['subject']
+                                                    .toString()
+                                                    .toLowerCase()
+                                                    .startsWith(
+                                                        val.toLowerCase()) ||
+                                                v['teacherEmail']
+                                                    .toString()
+                                                    .toLowerCase()
+                                                    .startsWith(
+                                                        val.toLowerCase()) ||
+                                                v['batch']
+                                                    .toString()
+                                                    .toLowerCase()
+                                                    .startsWith(
+                                                        val.toLowerCase())) &&
+                                            v['active']));
                                   _keys =
                                       _enrollmentDetailsVisible.keys.toList();
                                 });
@@ -287,6 +285,7 @@ class _StudentHomeState extends State<StudentHome> {
                 color: Colors.black,
                 child: EnhancedFutureBuilder(
                   future: setup(Provider.of<User>(context)),
+                  initialData: user,
                   rememberFutureResult: true,
                   whenNotDone: LoadingScreen(),
                   whenDone: (arg) => enrollmentList(),
@@ -301,18 +300,18 @@ class _StudentHomeState extends State<StudentHome> {
     return ListView.builder(
       itemCount: _keys.length,
       itemBuilder: (context, index) {
-        User _auth = FirebaseAuth.instance.currentUser;
-        var data = FirebaseFirestore.instance
-            .collection('users')
-            .where(_auth,
-                isEqualTo: _enrollmentDetailsVisible[_keys[index]]
-                    ['teacherEmail'])
-            .snapshots();
-        print(data);
+        Future<DocumentSnapshot> data() async {
+          DocumentSnapshot snapshot = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(_enrollmentDetailsVisible[_keys[index]]['teacherEmail'])
+              .get();
+          return snapshot;
+        }
+
         return Card(
           margin: EdgeInsets.symmetric(vertical: 7),
           elevation: 4,
-          color: kGlobalPrimaryColor,
+          color: kGlobalCardColor,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListTile(
@@ -337,22 +336,47 @@ class _StudentHomeState extends State<StudentHome> {
                           '${_enrollmentDetailsVisible[_keys[index]]['subject']} (${_enrollmentDetailsVisible[_keys[index]]['batch']})',
                           style: GoogleFonts.ubuntu(
                             color: Colors.white,
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         SizedBox(
                           height: 5,
                         ),
-                        Text(
-                          'Teacher Email: ${_enrollmentDetailsVisible[_keys[index]]['teacherEmail']}',
-                          style: GoogleFonts.nunito(
-                            color: Colors.cyanAccent,
-                            fontSize: 10,
-                            fontStyle: FontStyle.italic,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
+                        FutureBuilder(
+                            future: data(),
+                            builder: (BuildContext context,
+                                AsyncSnapshot<DocumentSnapshot> snapshot) {
+                              if (snapshot.hasData) {
+                                if (snapshot.data != null) {
+                                  var fullName =
+                                      snapshot.data.data()['fullName'];
+                                  // print(fullName);
+                                  return Text(
+                                    "Teacher: $fullName",
+                                    style: GoogleFonts.raleway(
+                                      color: Colors.white70,
+                                      fontSize: 12,
+                                    ),
+                                  );
+                                } else {
+                                  return CircularProgressIndicator();
+                                }
+                              }
+                              return SpinKitRing(
+                                color: kGoodColor,
+                                lineWidth: 2.0,
+                              );
+                            }),
+                        // Text(
+                        //   'Teacher Email: ${_enrollmentDetailsVisible[_keys[index]]['teacherEmail']}',
+                        //   style: GoogleFonts.nunito(
+                        //     color: Colors.cyanAccent,
+                        //     fontSize: 10,
+                        //     fontStyle: FontStyle.italic,
+                        //     decoration: TextDecoration.underline,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

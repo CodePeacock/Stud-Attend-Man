@@ -306,13 +306,13 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                     fontWeight: FontWeight.w700,
                                     // decoration: TextDecoration.underline,
                                     // decorationStyle: TextDecorationStyle.wavy,
-                                    shadows: [
-                                      Shadow(
-                                        color: Colors.black,
-                                        blurRadius: 8,
-                                        offset: Offset(0, 10),
-                                      ),
-                                    ],
+                                    // shadows: [
+                                    //   Shadow(
+                                    //     color: Colors.black,
+                                    //     blurRadius: 8,
+                                    //     offset: Offset(0, 10),
+                                    //   ),
+                                    // ],
                                   ),
                                 )),
                               ],
@@ -325,7 +325,7 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                       return Dialog(
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(20.0)),
+                                                BorderRadius.circular(20.0)),
                                         child: Container(
                                           padding: EdgeInsets.symmetric(
                                               horizontal: 20, vertical: 20),
@@ -367,13 +367,13 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                                       onPressed: () async {
                                                         dynamic result = await _tSAB
                                                             .deleteStudent(
-                                                            _subject,
-                                                            _batch,
-                                                            _studentsVisible[
-                                                            index]);
+                                                                _subject,
+                                                                _batch,
+                                                                _studentsVisible[
+                                                                    index]);
                                                         String deleted =
-                                                        _studentsVisible[
-                                                        index];
+                                                            _studentsVisible[
+                                                                index];
                                                         if (result ==
                                                             'Success') {
                                                           Navigator.of(context)
@@ -382,29 +382,29 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                                             _error = '';
                                                             _studentsVisible
                                                                 .remove(
-                                                                deleted);
+                                                                    deleted);
                                                             _students.remove(
                                                                 deleted);
                                                             _studentsMap
                                                                 .removeWhere((key,
-                                                                value) =>
-                                                            key ==
-                                                                deleted);
+                                                                        value) =>
+                                                                    key ==
+                                                                    deleted);
                                                           });
                                                           if (_students
                                                               .isEmpty) {
                                                             setState(() {
                                                               _removeStudents =
-                                                              false;
+                                                                  false;
                                                               _studentsMap[
-                                                              'Empty'] =
-                                                              true;
+                                                                      'Empty'] =
+                                                                  true;
                                                             });
                                                           }
                                                         } else {
                                                           setState(() {
                                                             _error =
-                                                            "Couldn't delete ${_studentsVisible[index]}";
+                                                                "Couldn't delete ${_studentsVisible[index]}";
                                                           });
                                                           Navigator.of(context)
                                                               .pop();
@@ -426,8 +426,8 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                       context, '/attendanceList',
                                       arguments: {
                                         'teacherEmail': Provider.of<User>(
-                                            context,
-                                            listen: false)
+                                                context,
+                                                listen: false)
                                             .email,
                                         'subject': _subject,
                                         'batch': _batch,
@@ -440,7 +440,7 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                         return Dialog(
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
-                                              BorderRadius.circular(20.0)),
+                                                  BorderRadius.circular(20.0)),
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
                                                 horizontal: 20, vertical: 20),

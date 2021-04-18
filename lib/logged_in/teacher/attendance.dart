@@ -56,7 +56,7 @@ class _AddAttendanceState extends State<AddAttendance> {
                   child: Row(
                     children: <Widget>[
                       BackButton(
-                        color: Colors.white70,
+                        color: kGoodColor,
                       ),
                       Expanded(
                           child: Text(
@@ -75,11 +75,11 @@ class _AddAttendanceState extends State<AddAttendance> {
                         child: TextButton.icon(
                           label: Text('Log Out',
                               style: TextStyle(
-                                  color: Colors.cyan,
+                                  color: kGoodColor,
                                   fontWeight: FontWeight.bold)),
                           icon: Icon(
                             Icons.exit_to_app,
-                            color: Colors.cyan,
+                            color: kGoodColor,
                             size: 15,
                           ),
                           onPressed: () async {
@@ -105,11 +105,12 @@ class _AddAttendanceState extends State<AddAttendance> {
   }
 
   Widget chooseClassDuration() {
-    TextStyle fieldTextStyle = TextStyle(
-        color: Colors.cyan, fontSize: 17, fontWeight: FontWeight.w400);
+    TextStyle fieldTextStyle = GoogleFonts.robotoSlab(
+        color: Colors.white, fontSize: 17, fontWeight: FontWeight.w400);
     return Container(
       color: kGlobalContainerColor,
       child: ListView(
+        // physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
@@ -158,7 +159,16 @@ class _AddAttendanceState extends State<AddAttendance> {
                             locale: LocaleType.en,
                             theme: DatePickerTheme(
                               containerHeight: 350,
-                              backgroundColor: Colors.white,
+                              headerColor: kGlobalContainerColor,
+                              titleHeight: 50,
+                              itemHeight: 40,
+                              backgroundColor: Colors.black,
+                              doneStyle:
+                                  GoogleFonts.montserrat(color: kGoodColor),
+                              cancelStyle:
+                                  GoogleFonts.montserrat(color: Colors.white),
+                              itemStyle:
+                                  GoogleFonts.montserrat(color: Colors.white),
                             ),
                             showTitleActions: true,
                             currentTime: DateTime.now(),
@@ -209,8 +219,17 @@ class _AddAttendanceState extends State<AddAttendance> {
                           DatePicker.showTime12hPicker(
                             context,
                             theme: DatePickerTheme(
-                              containerHeight: 300,
-                              backgroundColor: Colors.white,
+                              containerHeight: 350,
+                              headerColor: kGlobalContainerColor,
+                              titleHeight: 50,
+                              itemHeight: 40,
+                              backgroundColor: Colors.black,
+                              doneStyle:
+                                  GoogleFonts.montserrat(color: kGoodColor),
+                              cancelStyle:
+                                  GoogleFonts.montserrat(color: Colors.white),
+                              itemStyle:
+                                  GoogleFonts.montserrat(color: Colors.white),
                             ),
                             showTitleActions: true,
                             onConfirm: (time) {
@@ -254,8 +273,17 @@ class _AddAttendanceState extends State<AddAttendance> {
                           DatePicker.showTime12hPicker(
                             context,
                             theme: DatePickerTheme(
-                              containerHeight: 240,
-                              backgroundColor: Colors.white,
+                              containerHeight: 350,
+                              headerColor: kGlobalContainerColor,
+                              titleHeight: 50,
+                              itemHeight: 40,
+                              backgroundColor: Colors.black,
+                              doneStyle:
+                                  GoogleFonts.montserrat(color: kGoodColor),
+                              cancelStyle:
+                                  GoogleFonts.montserrat(color: Colors.white),
+                              itemStyle:
+                                  GoogleFonts.montserrat(color: Colors.white),
                             ),
                             showTitleActions: true,
                             onConfirm: (time) {
@@ -324,8 +352,9 @@ class _AddAttendanceState extends State<AddAttendance> {
 
   Widget addAttendance() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      // margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       padding: EdgeInsets.symmetric(horizontal: 20),
+      color: kGlobalContainerColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -336,78 +365,76 @@ class _AddAttendanceState extends State<AddAttendance> {
                   '$_error',
                   style: TextStyle(color: Colors.red),
                 ),
-          Expanded(
+          Flexible(
             child: ListView.builder(
-                itemCount: _enrolledStudents.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Text(
-                              '${_enrolledStudents[index]}',
-                              style: TextStyle(
-                                  color: _attendance[_enrolledStudents[index]]
-                                      ? Colors.green
-                                      : Colors.red),
-                            ),
+              itemCount: _enrolledStudents.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  color: Colors.black,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Text(
+                            '${_enrolledStudents[index]}',
+                            style: TextStyle(
+                                color: _attendance[_enrolledStudents[index]]
+                                    ? Colors.green
+                                    : Colors.red),
                           ),
-                          IconButton(
-                            icon: _attendance[_enrolledStudents[index]]
-                                ? Icon(
-                                    Icons.check_circle_outline,
-                                    color: Colors.green,
-                                  )
-                                : Icon(
-                                    Icons.check_circle_outline,
-                                    color: Colors.red,
-                                  ),
-                            onPressed: () {
-                              setState(() {
-                                _attendance[_enrolledStudents[index]] =
-                                    !_attendance[_enrolledStudents[index]];
-                              });
-                            },
-                          ),
-                        ],
-                      ),
+                        ),
+                        IconButton(
+                          icon: _attendance[_enrolledStudents[index]]
+                              ? Icon(
+                                  Icons.check_circle_rounded,
+                                  color: Colors.green,
+                                )
+                              : Icon(
+                                  Icons.check_circle_outline,
+                                  color: Colors.red,
+                                ),
+                          onPressed: () {
+                            setState(() {
+                              _attendance[_enrolledStudents[index]] =
+                                  !_attendance[_enrolledStudents[index]];
+                            });
+                          },
+                        ),
+                      ],
                     ),
-                  );
-                }),
-          ),
-          Container(
-            height: 50,
-            margin: EdgeInsets.symmetric(horizontal: 40),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.cyan[300],
-            ),
-            child: Center(
-                child: TextButton(
-              onPressed: () async {
-                String dateTime = _date + ' : ' + _start + ' - ' + _end;
-                dynamic result = await _tSAB.addAttendance(
-                    _subject, _batch, dateTime, _attendance);
-                if (result == null) {
-                  setState(() {
-                    _error = 'Something went wrong try again';
-                  });
-                } else {
-                  Navigator.pop(context);
-                }
+                  ),
+                );
               },
-              child: Text(
-                'Add Attendance',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.5,
-                    fontSize: 17),
-              ),
-            )),
+              // shrinkWrap: true,
+            ),
           ),
+          Center(
+              child: TextButton(
+            onPressed: () async {
+              String dateTime = _date + ' : ' + _start + ' - ' + _end;
+              dynamic result = await _tSAB.addAttendance(
+                  _subject, _batch, dateTime, _attendance);
+              if (result == null) {
+                setState(() {
+                  _error = 'Something went wrong try again';
+                });
+              } else {
+                Navigator.pop(context);
+              }
+            },
+            child: Text(
+              'Add Attendance',
+              style: GoogleFonts.raleway(
+                  color: kGoodColor,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                  fontSize: 17),
+            ),
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(Colors.black)),
+          )),
         ],
       ),
     );

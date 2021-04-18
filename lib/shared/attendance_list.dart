@@ -31,13 +31,13 @@ class _AttendanceListState extends State<AttendanceList> {
         body: Column(
       children: <Widget>[
         Container(
-          color: Colors.black,
+          color: kGlobalContainerColor,
           child: Stack(
             children: <Widget>[
               Container(
                 padding: EdgeInsets.fromLTRB(5, 60, 30, 50),
                 decoration: BoxDecoration(
-                    color: kGlobalContainerColor,
+                    color: Colors.black,
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(50),
                         bottomRight: Radius.circular(50))),
@@ -61,7 +61,7 @@ class _AttendanceListState extends State<AttendanceList> {
                           borderRadius: BorderRadius.all(Radius.circular(50))),
                       child: TextButton.icon(
                         label: Text('Log Out',
-                            style: GoogleFonts.montserrat(
+                            style: TextStyle(
                                 color: kGoodColor,
                                 fontWeight: FontWeight.bold)),
                         icon: Icon(
@@ -114,7 +114,7 @@ class _AttendanceListState extends State<AttendanceList> {
         Expanded(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 20),
-            color: Colors.black,
+            color: kGlobalContainerColor,
             child: EnhancedFutureBuilder(
               future: setup(data['teacherEmail'], data['subject'],
                   data['batch'], data['studentEmail']),
@@ -144,12 +144,14 @@ class _AttendanceListState extends State<AttendanceList> {
           children: <Widget>[
             Card(
               margin: EdgeInsets.only(top: 10),
-              color: kGlobalContainerColor,
-              elevation: 3.0,
+              color: Colors.white,
+              // shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(20)),
+              elevation: 5.0,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     // Text(
                     //   'Subject',
@@ -158,24 +160,24 @@ class _AttendanceListState extends State<AttendanceList> {
                     //       fontWeight: FontWeight.bold,
                     //       fontSize: 16),
                     // ),
-                    Text(
-                      'Date',
-                      style: GoogleFonts.lato(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    ),
-                    Text('Time',
-                        style: GoogleFonts.raleway(
-                            color: Colors.white,
+                    SizedBox(width: 15),
+                    Text('Date',
+                        style: GoogleFonts.lato(
+                            color: Colors.blueAccent,
                             fontWeight: FontWeight.bold,
                             fontSize: 20)),
+                    SizedBox(width: 80),
+                    Text('Time',
+                        style: GoogleFonts.raleway(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20)),
+                    SizedBox(width: 80),
                     Text('A/P',
                         style: GoogleFonts.raleway(
-                          color: Colors.greenAccent,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        )),
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20)),
                   ],
                 ),
               ),
@@ -190,7 +192,7 @@ class _AttendanceListState extends State<AttendanceList> {
                   return Card(
                     elevation: 3,
                     margin: EdgeInsets.only(top: 10),
-                    color: kGlobalCardColor,
+                    color: Colors.white,
                     // shape: RoundedRectangleBorder(
                     //     borderRadius: BorderRadius.circular(20)),
                     child: Padding(
@@ -225,24 +227,30 @@ class _AttendanceListState extends State<AttendanceList> {
                           Text(
                             '${time[index].substring(0, 10)}',
                             style: GoogleFonts.raleway(
-                                color: Colors.cyanAccent,
+                                color: Colors.blueAccent,
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
                             '${time[index].substring(12, 21)} - ${time[index].substring(23, (time[index].length))}',
                             style: GoogleFonts.raleway(
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
                           SizedBox(width: 10),
                           _attendanceList[time[index]]
-                              ? Icon(
-                                  Icons.check_circle_outline,
-                                  color: Colors.greenAccent,
+                              ? Text(
+                                  'P',
+                                  style: GoogleFonts.montserrat(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 )
-                              : Icon(
-                                  Icons.check_circle_outline,
-                                  color: Colors.red.shade900,
+                              : Text(
+                                  'A',
+                                  style: GoogleFonts.montserrat(
+                                      color: Colors.redAccent,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
                         ],
                       ),

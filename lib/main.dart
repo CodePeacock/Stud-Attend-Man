@@ -33,6 +33,7 @@ class LoginApp extends StatelessWidget {
       value: UserModel().account,
       initialData: user,
       child: MaterialApp(
+        checkerboardOffscreenLayers: true,
         debugShowCheckedModeBanner: false,
         title: 'Stud.Attend.Man',
         home: SplashScreen(),

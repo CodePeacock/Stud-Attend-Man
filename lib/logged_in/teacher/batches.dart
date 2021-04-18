@@ -247,10 +247,9 @@ class _BatchesState extends State<Batches> {
                                 Expanded(
                                     child: Text(
                                   '${_batchesVisible[index]}',
-                                  style: GoogleFonts.lato(
+                                  style: GoogleFonts.ubuntu(
                                     color: Colors.white,
                                     fontSize: 18,
-                                    fontWeight: FontWeight.w900,
                                   ),
                                 )),
                                 _delete
