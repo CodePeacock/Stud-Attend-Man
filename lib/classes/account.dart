@@ -23,8 +23,8 @@ class UserModel {
       UserCredential account =
           await _auth.signInWithEmailAndPassword(email: email, password: pass);
       return account.user;
-    } catch (e) {
-      print(e.toString());
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
       return null;
     }
   }
@@ -32,7 +32,8 @@ class UserModel {
   Future signOut() async {
     try {
       return await _auth.signOut();
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
       return null;
     }
   }
@@ -44,19 +45,14 @@ class UserModel {
 
   Future updateEmail(newEmail) async {
     User user = _auth.currentUser;
-    await user.verifyBeforeUpdateEmail(
-      newEmail,
-    );
+    await user.updateEmail(newEmail);
   }
 
   Future<String> resetPassword(oldPass, newPass) async {
     try {
       User user = _auth.currentUser;
       UserCredential newAuth = await user.reauthenticateWithCredential(
-        EmailAuthProvider.credential(
-          email: user.email,
-          password: oldPass,
-        ),
+        EmailAuthProvider.credential(email: user.email, password: oldPass),
       );
       await newAuth.user.updatePassword(newPass);
       return 'Success';

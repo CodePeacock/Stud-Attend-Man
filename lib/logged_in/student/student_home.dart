@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enhanced_future_builder/enhanced_future_builder.dart';
-import 'package:firebase_auth/firebase_auth.dart' show User;
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth, User;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,7 +27,7 @@ class _StudentHomeState extends State<StudentHome> {
   String userName = '';
 
   // String _url = "https://flutter.dev/";
-  User user;
+  User _auth = FirebaseAuth.instance.currentUser;
 
   Future setup(User user) async {
     _sEAA = StudentEnrollmentAndAttendance(user);
@@ -85,9 +85,7 @@ class _StudentHomeState extends State<StudentHome> {
                       ),
                       accountEmail: Text(
                         // _email,
-                        Provider.of<User>(context).email != null
-                            ? Provider.of<User>(context).email
-                            : 'Loading Data',
+                        _auth.email == null ? 'Loading Data' : _auth.email,
                         style: GoogleFonts.raleway(
                             color: Colors.white70, fontSize: 14),
                       ),
@@ -284,8 +282,10 @@ class _StudentHomeState extends State<StudentHome> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 color: Colors.black,
                 child: EnhancedFutureBuilder(
-                  future: setup(Provider.of<User>(context)),
-                  initialData: user,
+                  future: setup(Provider.of<User>(context)) == null
+                      ? null
+                      : setup(Provider.of<User>(context)),
+                  initialData: _auth,
                   rememberFutureResult: true,
                   whenNotDone: LoadingScreen(),
                   whenDone: (arg) => enrollmentList(),

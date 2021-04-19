@@ -61,7 +61,7 @@ class _AddAttendanceState extends State<AddAttendance> {
                       Expanded(
                           child: Text(
                         '${_chooseClass ? 'Class Timing' : 'Add Attendance'}',
-                            style: GoogleFonts.quicksand(
+                        style: GoogleFonts.quicksand(
                             color: Colors.white,
                             fontSize: 25,
                             fontWeight: FontWeight.bold),

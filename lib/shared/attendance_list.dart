@@ -172,12 +172,36 @@ class _AttendanceListState extends State<AttendanceList> {
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 20)),
-                    SizedBox(width: 80),
-                    Text('A/P',
-                        style: GoogleFonts.raleway(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20)),
+                    SizedBox(width: 90),
+                    RichText(
+                      softWrap: true,
+                      textAlign: TextAlign.end,
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'A',
+                            style: GoogleFonts.raleway(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                          TextSpan(
+                            text: '/',
+                            style: GoogleFonts.raleway(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                          TextSpan(
+                            text: 'P',
+                            style: GoogleFonts.raleway(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

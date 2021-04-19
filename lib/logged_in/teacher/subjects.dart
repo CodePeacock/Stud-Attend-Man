@@ -369,7 +369,7 @@ class _SubjectsState extends State<Subjects> {
                                 )),
                                 _delete
                                     ? Icon(
-                                  Icons.delete,
+                                        Icons.delete,
                                         color: kGoodColor,
                                       )
                                     : Icon(

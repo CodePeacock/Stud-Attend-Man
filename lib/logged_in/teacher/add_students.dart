@@ -135,7 +135,7 @@ class _AddStudentsState extends State<AddStudents> {
                             children: <Widget>[
                               Expanded(
                                   child: Text(
-                                    '${_filteredStudents[index]}',
+                                '${_filteredStudents[index]}',
                                 style: GoogleFonts.montserrat(
                                   color: Colors.white,
                                   fontSize: 14,

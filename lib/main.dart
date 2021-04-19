@@ -28,10 +28,11 @@ class LoginApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User user;
+    User user = FirebaseAuth.instance.currentUser;
     return StreamProvider<User>.value(
       value: UserModel().account,
       initialData: user,
+      lazy: true,
       child: MaterialApp(
         checkerboardOffscreenLayers: true,
         debugShowCheckedModeBanner: false,
