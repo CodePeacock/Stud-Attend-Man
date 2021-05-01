@@ -126,7 +126,7 @@ class _StudentHomeState extends State<StudentHome> {
                       ),
                       AboutListTile(
                         applicationName: 'S.A.M',
-                        applicationVersion: '0.5',
+                        applicationVersion: '0.6',
                         applicationIcon: SamLogo(
                           height: 50,
                           width: 50,
@@ -239,19 +239,19 @@ class _StudentHomeState extends State<StudentHome> {
                                       Map.from(_enrollmentDetails)
                                         ..removeWhere((k, v) => !((v['subject']
                                                     .toString()
-                                                    .toLowerCase()
+                                                    .toUpperCase()
                                                     .startsWith(
-                                                        val.toLowerCase()) ||
+                                                        val.toUpperCase()) ||
                                                 v['teacherEmail']
                                                     .toString()
-                                                    .toLowerCase()
+                                                    .toUpperCase()
                                                     .startsWith(
-                                                        val.toLowerCase()) ||
+                                                        val.toUpperCase()) ||
                                                 v['batch']
                                                     .toString()
-                                                    .toLowerCase()
+                                                    .toUpperCase()
                                                     .startsWith(
-                                                        val.toLowerCase())) &&
+                                                        val.toUpperCase())) &&
                                             v['active']));
                                   _keys =
                                       _enrollmentDetailsVisible.keys.toList();

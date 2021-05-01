@@ -104,7 +104,8 @@ class _AddStudentsState extends State<AddStudents> {
               child: Padding(
                 padding: EdgeInsets.fromLTRB(15, 0, 15, 20),
                 child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
+                  physics: BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics()),
                   itemBuilder: (context, index) {
                     return Card(
                       elevation: 3,
@@ -138,7 +139,7 @@ class _AddStudentsState extends State<AddStudents> {
                                 '${_filteredStudents[index]}',
                                 style: GoogleFonts.montserrat(
                                   color: Colors.white,
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
                               )),

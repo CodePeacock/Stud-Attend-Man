@@ -57,11 +57,11 @@ class _AttendanceListState extends State<AttendanceList> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
-                          color: Colors.black,
+                          color: kGlobalContainerColor,
                           borderRadius: BorderRadius.all(Radius.circular(50))),
                       child: TextButton.icon(
                         label: Text('Log Out',
-                            style: TextStyle(
+                            style: GoogleFonts.montserrat(
                                 color: kGoodColor,
                                 fontWeight: FontWeight.bold)),
                         icon: Icon(
@@ -133,8 +133,10 @@ class _AttendanceListState extends State<AttendanceList> {
       return Center(
         child: Text(
           'No Attendance Found !',
-          style: TextStyle(
-              color: Colors.cyan, fontWeight: FontWeight.bold, fontSize: 20),
+          style: GoogleFonts.lato(
+              color: Colors.cyanAccent,
+              fontWeight: FontWeight.bold,
+              fontSize: 20),
         ),
       );
     } else {

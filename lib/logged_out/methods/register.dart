@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:stud_attend_man/classes/account.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
 import 'package:stud_attend_man/shared/formatting.dart';
+import 'package:stud_attend_man/shared/refined_button.dart';
 
 class Register extends StatefulWidget {
   final ValueChanged<bool> updateTitle;
@@ -41,28 +42,11 @@ class _RegisterState extends State<Register> {
                 child: _currentForm,
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
-              GestureDetector(
-                onTap: () => widget.updateTitle(true),
-                child: Container(
-                  height: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 70),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    gradient: kButtonGradient,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Login",
-                      style: GoogleFonts.raleway(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          fontSize: 17),
-                    ),
-                  ),
-                ),
+              RefinedButton(
+                buttonText: "Login",
+                onPressed: () => widget.updateTitle(true),
               ),
             ],
           );
@@ -174,32 +158,15 @@ class _RegisterState extends State<Register> {
           SizedBox(
             height: 30,
           ),
-          GestureDetector(
-            onTap: () {
+          RefinedButton(
+            buttonText: "Next",
+            onPressed: () {
               if (_formKey.currentState.validate()) {
                 setState(() {
                   _currentForm = _registerPasswordType();
                 });
               }
             },
-            child: Container(
-              height: 50,
-              margin: EdgeInsets.symmetric(horizontal: 50),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                gradient: kButtonGradient,
-              ),
-              child: Center(
-                child: Text(
-                  "Next",
-                  style: GoogleFonts.raleway(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.5,
-                      fontSize: 17),
-                ),
-              ),
-            ),
           ),
         ],
       ),
@@ -328,98 +295,58 @@ class _RegisterState extends State<Register> {
             height: 30,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: GestureDetector(
-                  onTap: () {
+              RefinedButton(
+                  buttonText: "Back",
+                  onPressed: () {
                     setState(() {
                       _currentForm = _registerNameEmail();
                     });
-                  },
-                  child: Container(
-                    height: 50,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      gradient: kButtonGradient,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Back",
-                        style: GoogleFonts.raleway(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                            fontSize: 17),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: GestureDetector(
-                  onTap: () async {
-                    if (_formKey.currentState.validate()) {
-                      setState(() => loading = true);
-                      User user = await _account.register(email, pass);
-                      if (user != null) {
-                        UserDataBase userData = UserDataBase(user);
-                        dynamic userDataSet = await userData.newUserData(
-                            firstName.trim(), lastName.trim(), type);
-                        bool isEmailVerified = user.emailVerified;
-                        if (userDataSet != null) {
-                          dynamic type = await userData.userType();
-                          if (type != null) {
-                            Navigator.of(context).pushReplacementNamed('/home',
-                                arguments: {
-                                  'type': type,
-                                  'isEmailVerified': isEmailVerified
-                                });
-                          } else {
-                            await _account.signOut();
-                            setState(() {
-                              loading = false;
-                              error = 'Couldn\'t get user type, try to log in';
-                            });
-                          }
+                  }),
+              RefinedButton(
+                buttonText: "Register",
+                onPressed: () async {
+                  if (_formKey.currentState.validate()) {
+                    setState(() => loading = true);
+                    User user = await _account.register(email, pass);
+                    if (user != null) {
+                      UserDataBase userData = UserDataBase(user);
+                      dynamic userDataSet = await userData.newUserData(
+                          firstName.trim(), lastName.trim(), type);
+                      bool isEmailVerified = user.emailVerified;
+                      if (userDataSet != null) {
+                        dynamic type = await userData.userType();
+                        if (type != null) {
+                          Navigator.of(context).pushReplacementNamed('/home',
+                              arguments: {
+                                'type': type,
+                                'isEmailVerified': isEmailVerified
+                              });
                         } else {
-                          await _account.deleteUser();
+                          await _account.signOut();
                           setState(() {
                             loading = false;
-                            error = "Couldn't add user details to database";
+                            error = 'Couldn\'t get user type, try to log in';
                           });
                         }
                       } else {
+                        await _account.deleteUser();
                         setState(() {
-                          type = '';
                           loading = false;
-                          error = "Please provide an valid E-mail";
-                          _currentForm = _registerNameEmail();
+                          error = "Couldn't add user details to database";
                         });
                       }
+                    } else {
+                      setState(() {
+                        type = '';
+                        loading = false;
+                        error = "Please provide an valid E-mail";
+                        _currentForm = _registerNameEmail();
+                      });
                     }
-                  },
-                  child: Container(
-                    height: 50,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      gradient: kButtonGradient,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Register",
-                        style: GoogleFonts.raleway(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.5,
-                            fontSize: 17),
-                      ),
-                    ),
-                  ),
-                ),
+                  }
+                },
               ),
             ],
           ),

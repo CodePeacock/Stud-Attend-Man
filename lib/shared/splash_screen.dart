@@ -18,8 +18,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  String _versionName = 'V0.5';
-  final int splashDelay = 5;
+  String _versionName = 'V0.6';
+  final int splashDelay = 3;
   FirebaseAuth user = FirebaseAuth.instance;
   static const Color textColor = Color(0xFF00ffef);
 

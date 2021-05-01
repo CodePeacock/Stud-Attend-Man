@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:stud_attend_man/classes/account.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
 import 'package:stud_attend_man/shared/formatting.dart';
+import 'package:stud_attend_man/shared/refined_button.dart';
 
 class Login extends StatefulWidget {
   final ValueChanged<bool> updateTitle;
@@ -132,79 +133,53 @@ class _LoginState extends State<Login> {
                       SizedBox(
                         height: 15,
                       ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(() => _loading = true);
-                            User user = await _account.login(_email, _pass);
-                            if (user != null) {
-                              bool isEmailVerified = user.emailVerified;
-                              dynamic type =
-                                  await UserDataBase(user).userType();
-                              if (type != null) {
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/home', arguments: {
-                                  'type': type,
-                                  'isEmailVerified': isEmailVerified
-                                });
-                              } else {
-                                await _account.signOut();
-                                setState(() {
-                                  _loading = false;
-                                  _error = 'Couldn\'t get user type, try again';
-                                });
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          RefinedButton(
+                            textColor: Colors.white,
+                            buttonText: "Login",
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                setState(() => _loading = true);
+                                User user = await _account.login(_email, _pass);
+                                if (user != null) {
+                                  bool isEmailVerified = user.emailVerified;
+                                  dynamic type =
+                                      await UserDataBase(user).userType();
+                                  if (type != null) {
+                                    Navigator.of(context).pushReplacementNamed(
+                                        '/home',
+                                        arguments: {
+                                          'type': type,
+                                          'isEmailVerified': isEmailVerified
+                                        });
+                                  } else {
+                                    await _account.signOut();
+                                    setState(() {
+                                      _loading = false;
+                                      _error =
+                                          'Couldn\'t get user type, try again';
+                                    });
+                                  }
+                                } else {
+                                  setState(() {
+                                    _loading = false;
+                                    _error =
+                                        'Email and/or password is incorrect';
+                                  });
+                                }
                               }
-                            } else {
-                              setState(() {
-                                _loading = false;
-                                _error = 'Email and/or password is incorrect';
-                              });
-                            }
-                          }
-                        },
-                        child: Container(
-                          height: 50,
-                          margin: EdgeInsets.symmetric(horizontal: 50),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            gradient: kButtonGradient,
+                            },
                           ),
-                          child: Center(
-                            child: Text(
-                              "Login",
-                              style: GoogleFonts.raleway(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1.5,
-                                  fontSize: 17),
-                            ),
+                          RefinedButton(
+                            buttonText: "Register",
+                            onPressed: () => widget.updateTitle(false),
                           ),
-                        ),
+                        ],
                       ),
                       SizedBox(height: 30),
                     ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () => widget.updateTitle(false),
-                child: Container(
-                  height: 50,
-                  margin: EdgeInsets.symmetric(horizontal: 70),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    gradient: kButtonGradient,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Register",
-                      style: GoogleFonts.raleway(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.5,
-                          fontSize: 17),
-                    ),
                   ),
                 ),
               ),

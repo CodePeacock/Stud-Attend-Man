@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:stud_attend_man/classes/account.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
 import 'package:stud_attend_man/shared/formatting.dart';
+import 'package:stud_attend_man/shared/sam_logo.dart';
 import 'package:stud_attend_man/shared/teacher_drawer_header.dart';
 
 class EnrolledStudents extends StatefulWidget {
@@ -119,6 +120,29 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                           Navigator.of(context).pop();
                           Navigator.of(context).pushNamed('/accountSettings');
                         },
+                      ),
+                      AboutListTile(
+                        applicationName: 'S.A.M',
+                        applicationVersion: '0.6',
+                        applicationIcon: SamLogo(
+                          height: 50,
+                          width: 50,
+                        ),
+                        applicationLegalese: 'Made possible by Flutter',
+                        // aboutBoxChildren: [
+                        //   TextButton(
+                        //     child: Text(
+                        //       'Learn More',
+                        //       style:
+                        //           GoogleFonts.montserrat(color: Colors.black),
+                        //     ),
+                        //     onPressed: _launchURL,
+                        //   ),
+                        // ],
+                        child: Text(
+                          'About S.A.M',
+                          style: GoogleFonts.quicksand(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -323,6 +347,7 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                     context: context,
                                     builder: (context) {
                                       return Dialog(
+                                        backgroundColor: Colors.black,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20.0)),
@@ -336,8 +361,10 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                                 height: 30,
                                               ),
                                               Text(
-                                                'Are you sure you want to remove ${_studentsVisible[index]} ? This action can\'t be reverted.',
+                                                "Are you sure you want to remove ${_studentsVisible[index]}? This action can\'t be reverted.",
                                                 textAlign: TextAlign.justify,
+                                                style: GoogleFonts.montserrat(
+                                                    color: Colors.cyanAccent),
                                               ),
                                               SizedBox(
                                                 height: 20,
@@ -348,8 +375,10 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                                     child: TextButton(
                                                       child: Text(
                                                         'Cancel',
-                                                        style: TextStyle(
-                                                            color: Colors.cyan),
+                                                        style:
+                                                            GoogleFonts.raleway(
+                                                                color: Colors
+                                                                    .green),
                                                       ),
                                                       onPressed: () {
                                                         Navigator.of(context)
@@ -361,19 +390,21 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                                     child: TextButton(
                                                       child: Text(
                                                         'Delete',
-                                                        style: TextStyle(
-                                                            color: Colors.cyan),
+                                                        style:
+                                                            GoogleFonts.raleway(
+                                                                color:
+                                                                    Colors.red),
                                                       ),
                                                       onPressed: () async {
                                                         dynamic result = await _tSAB
                                                             .deleteStudent(
-                                                                _subject,
-                                                                _batch,
-                                                                _studentsVisible[
-                                                                    index]);
-                                                        String deleted =
+                                                            _subject,
+                                                            _batch,
                                                             _studentsVisible[
-                                                                index];
+                                                            index]);
+                                                        String deleted =
+                                                        _studentsVisible[
+                                                        index];
                                                         if (result ==
                                                             'Success') {
                                                           Navigator.of(context)
@@ -382,29 +413,29 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
                                                             _error = '';
                                                             _studentsVisible
                                                                 .remove(
-                                                                    deleted);
+                                                                deleted);
                                                             _students.remove(
                                                                 deleted);
                                                             _studentsMap
                                                                 .removeWhere((key,
-                                                                        value) =>
-                                                                    key ==
-                                                                    deleted);
+                                                                value) =>
+                                                            key ==
+                                                                deleted);
                                                           });
                                                           if (_students
                                                               .isEmpty) {
                                                             setState(() {
                                                               _removeStudents =
-                                                                  false;
+                                                              false;
                                                               _studentsMap[
-                                                                      'Empty'] =
-                                                                  true;
+                                                              'Empty'] =
+                                                              true;
                                                             });
                                                           }
                                                         } else {
                                                           setState(() {
                                                             _error =
-                                                                "Couldn't delete ${_studentsVisible[index]}";
+                                                            "Couldn't delete ${_studentsVisible[index]}";
                                                           });
                                                           Navigator.of(context)
                                                               .pop();
@@ -562,18 +593,31 @@ class _EnrolledStudentsState extends State<EnrolledStudents> {
             });
           },
           child: Container(
+            margin: EdgeInsets.only(top: 10),
             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
             decoration: BoxDecoration(
-                color: Colors.cyan,
+                color: Colors.black,
                 borderRadius: BorderRadius.all(Radius.circular(50))),
-            child: Center(
-                child: Text(
-              'Done',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18),
-            )),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.check_rounded,
+                  color: kGoodColor,
+                  size: 23,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  'Done',
+                  style: GoogleFonts.sourceSansPro(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                ),
+              ],
+            ),
           ),
         ),
       ],

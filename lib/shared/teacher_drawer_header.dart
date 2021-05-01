@@ -1,16 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class TeacherDrawerHeader extends StatelessWidget {
-  const TeacherDrawerHeader({
+  TeacherDrawerHeader({
     Key key,
     @required String userName,
   })  : _userName = userName,
         super(key: key);
 
   final String _userName;
+  final User _auth = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +29,7 @@ class TeacherDrawerHeader extends StatelessWidget {
       ),
       accountEmail: Text(
         // _email,
-        Provider.of<User>(context).email != null
-            ? Provider.of<User>(context).email
-            : 'Loading Data',
+        _auth.email == null ? 'Loading Data' : _auth.email,
         style: GoogleFonts.raleway(color: Colors.white70, fontSize: 14),
       ),
     );

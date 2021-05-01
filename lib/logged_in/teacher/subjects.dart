@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:stud_attend_man/classes/account.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
 import 'package:stud_attend_man/shared/formatting.dart';
+import 'package:stud_attend_man/shared/sam_logo.dart';
 import 'package:stud_attend_man/shared/teacher_drawer_header.dart';
 
 class Subjects extends StatefulWidget {
@@ -93,6 +94,29 @@ class _SubjectsState extends State<Subjects> {
                           Navigator.of(context).pop();
                           Navigator.of(context).pushNamed('/accountSettings');
                         },
+                      ),
+                      AboutListTile(
+                        applicationName: 'S.A.M',
+                        applicationVersion: '0.6',
+                        applicationIcon: SamLogo(
+                          height: 50,
+                          width: 50,
+                        ),
+                        applicationLegalese: 'Copyright Pending',
+                        // aboutBoxChildren: [
+                        //   TextButton(
+                        //     child: Text(
+                        //       'Learn More',
+                        //       style:
+                        //           GoogleFonts.montserrat(color: Colors.black),
+                        //     ),
+                        //     onPressed: _launchURL,
+                        //   ),
+                        // ],
+                        child: Text(
+                          'About S.A.M',
+                          style: GoogleFonts.quicksand(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -265,6 +289,7 @@ class _SubjectsState extends State<Subjects> {
                                     context: context,
                                     builder: (context) {
                                       return Dialog(
+                                        backgroundColor: Colors.black,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20.0)),
@@ -278,8 +303,10 @@ class _SubjectsState extends State<Subjects> {
                                                 height: 30,
                                               ),
                                               Text(
-                                                'Are you sure you want to delete ${_subjectsVisible[index]} ? This action can\'t be reverted.',
+                                                "Are you sure you want to delete ${_subjectsVisible[index]}? This action can\'t be reverted.",
                                                 textAlign: TextAlign.justify,
+                                                style: GoogleFonts.montserrat(
+                                                    color: Colors.cyanAccent),
                                               ),
                                               SizedBox(
                                                 height: 20,
@@ -290,8 +317,10 @@ class _SubjectsState extends State<Subjects> {
                                                     child: TextButton(
                                                       child: Text(
                                                         'Cancel',
-                                                        style: TextStyle(
-                                                            color: Colors.cyan),
+                                                        style:
+                                                            GoogleFonts.raleway(
+                                                                color: Colors
+                                                                    .green),
                                                       ),
                                                       onPressed: () {
                                                         Navigator.of(context)
@@ -303,24 +332,26 @@ class _SubjectsState extends State<Subjects> {
                                                     child: TextButton(
                                                       child: Text(
                                                         'Delete',
-                                                        style: TextStyle(
-                                                            color: Colors.cyan),
+                                                        style:
+                                                            GoogleFonts.raleway(
+                                                                color:
+                                                                    Colors.red),
                                                       ),
                                                       onPressed: () async {
                                                         String deleted =
-                                                            _subjectsVisible[
-                                                                index];
+                                                        _subjectsVisible[
+                                                        index];
                                                         dynamic result = await _tSAB
                                                             .deleteSubject(
-                                                                _subjectsVisible[
-                                                                    index]);
+                                                            _subjectsVisible[
+                                                            index]);
                                                         if (result ==
                                                             'Success') {
                                                           setState(() {
                                                             _error = ' ';
                                                             _subjectsVisible
                                                                 .remove(
-                                                                    deleted);
+                                                                deleted);
                                                             _subjects.remove(
                                                                 deleted);
                                                           });
@@ -337,7 +368,7 @@ class _SubjectsState extends State<Subjects> {
                                                         } else {
                                                           setState(() {
                                                             _error =
-                                                                "Couldn't delete ${_subjectsVisible[index]}";
+                                                            "Couldn't delete ${_subjectsVisible[index]}";
                                                           });
                                                           Navigator.of(context)
                                                               .pop();

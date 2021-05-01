@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:stud_attend_man/classes/account.dart';
 import 'package:stud_attend_man/classes/firestore_data.dart';
 import 'package:stud_attend_man/shared/formatting.dart';
+import 'package:stud_attend_man/shared/sam_logo.dart';
 import 'package:stud_attend_man/shared/teacher_drawer_header.dart';
 
 class Batches extends StatefulWidget {
@@ -88,6 +89,29 @@ class _BatchesState extends State<Batches> {
                           Navigator.of(context).pop();
                           Navigator.of(context).pushNamed('/accountSettings');
                         },
+                      ),
+                      AboutListTile(
+                        applicationName: 'S.A.M',
+                        applicationVersion: '0.6',
+                        applicationIcon: SamLogo(
+                          height: 50,
+                          width: 50,
+                        ),
+                        applicationLegalese: 'Made possible by Flutter',
+                        // aboutBoxChildren: [
+                        //   TextButton(
+                        //     child: Text(
+                        //       'Learn More',
+                        //       style:
+                        //           GoogleFonts.montserrat(color: Colors.black),
+                        //     ),
+                        //     onPressed: _launchURL,
+                        //   ),
+                        // ],
+                        child: Text(
+                          'About S.A.M',
+                          style: GoogleFonts.quicksand(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -229,8 +253,9 @@ class _BatchesState extends State<Batches> {
           _delete && _batches[0] != 'Empty' ? deleteButton() : Container(),
           _batches[0] == 'Empty'
               ? Text(
-                  '\n\nYou Need To Add Batches',
-                  style: GoogleFonts.raleway(color: Colors.red),
+            '\n\nYou Need To Add Batches',
+                  style: GoogleFonts.raleway(
+                      color: Colors.red, fontWeight: FontWeight.bold),
                 )
               : Expanded(
                   child: ListView.builder(
@@ -276,6 +301,7 @@ class _BatchesState extends State<Batches> {
                                     context: context,
                                     builder: (context) {
                                       return Dialog(
+                                        backgroundColor: Colors.black,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(20.0)),
@@ -289,8 +315,10 @@ class _BatchesState extends State<Batches> {
                                                 height: 30,
                                               ),
                                               Text(
-                                                'Are you sure you want to delete ${_batchesVisible[index]} ? This action can\'t be reverted.',
+                                                "Are you sure you want to delete ${_batchesVisible[index]}? This action can\'t be reverted.",
                                                 textAlign: TextAlign.justify,
+                                                style: GoogleFonts.montserrat(
+                                                    color: Colors.cyanAccent),
                                               ),
                                               SizedBox(
                                                 height: 20,
@@ -301,8 +329,10 @@ class _BatchesState extends State<Batches> {
                                                     child: TextButton(
                                                       child: Text(
                                                         'Cancel',
-                                                        style: TextStyle(
-                                                            color: Colors.cyan),
+                                                        style:
+                                                            GoogleFonts.raleway(
+                                                                color: Colors
+                                                                    .green),
                                                       ),
                                                       onPressed: () {
                                                         Navigator.of(context)
@@ -314,18 +344,20 @@ class _BatchesState extends State<Batches> {
                                                     child: TextButton(
                                                       child: Text(
                                                         'Delete',
-                                                        style: TextStyle(
-                                                            color: Colors.cyan),
+                                                        style:
+                                                            GoogleFonts.raleway(
+                                                                color:
+                                                                    Colors.red),
                                                       ),
                                                       onPressed: () async {
                                                         dynamic result =
-                                                            await _tSAB.deleteBatch(
-                                                                _subject,
-                                                                _batchesVisible[
-                                                                    index]);
-                                                        String deleted =
+                                                        await _tSAB.deleteBatch(
+                                                            _subject,
                                                             _batchesVisible[
-                                                                index];
+                                                            index]);
+                                                        String deleted =
+                                                        _batchesVisible[
+                                                        index];
                                                         if (result ==
                                                             'Success') {
                                                           Navigator.of(context)
@@ -334,7 +366,7 @@ class _BatchesState extends State<Batches> {
                                                             _error = '';
                                                             _batchesVisible
                                                                 .remove(
-                                                                    deleted);
+                                                                deleted);
                                                             _batches.remove(
                                                                 deleted);
                                                           });
@@ -349,7 +381,7 @@ class _BatchesState extends State<Batches> {
                                                         } else {
                                                           setState(() {
                                                             _error =
-                                                                "Couldn't delete ${_batchesVisible[index]}";
+                                                            "Couldn't delete ${_batchesVisible[index]}";
                                                           });
                                                           Navigator.of(context)
                                                               .pop();
@@ -461,7 +493,7 @@ class _BatchesState extends State<Batches> {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 18),
-                )
+                ),
               ],
             ),
           ),

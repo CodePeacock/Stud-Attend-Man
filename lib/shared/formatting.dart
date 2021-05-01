@@ -96,7 +96,7 @@ class AuthLoading extends StatelessWidget {
       child: Center(
         child: SpinKitWave(
           color: kGoodColor,
-          size: 40,
+          size: 60,
           type: SpinKitWaveType.start,
           itemCount: 10,
         ),
